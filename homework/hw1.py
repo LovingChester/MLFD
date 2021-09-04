@@ -6,8 +6,23 @@ the problem 1.4
 import numpy as np
 import matplotlib.pyplot as plt
 
-def PLA():
+'''
+this function will return the randomly
+misclassified data from the data set
+'''
+def select_misclassify(res, Dy):
+
     
+
+    return None
+
+def PLA(Dx, Dy, w):
+
+    res = np.matmul(w, np.transpose(Dx))
+    res = np.sign(res)
+    mis = select_misclassify(res, Dy)
+    
+
     return None
 
 '''
@@ -32,23 +47,18 @@ Dx = np.random.randint(-9, 10, size=(20,2))
 plt.plot(np.transpose(Dx)[0],np.transpose(Dx)[1], 'ro')
 
 Dy = list(map(lambda x : x[0] + x[1] - 2, Dx))
-#print(Dy)
-Dy = list(map(lambda x: -1 if x < 0 else 1, Dy))
-#print(Dy)
-Dy = np.array(Dy)
-# print(Dx)
-# print(Dy.reshape(20,1))
+Dy = np.sign(Dy)
+print(Dy.reshape(20,1))
 Dy = Dy.reshape(20,1)
 #plt.show()
 
-# initialize weight
+# initialize weight to zero vector
 w = np.zeros(3)
 print(w)
 
 # insert x0
 Dx = np.insert(Dx, 0, 20*[1], axis=1)
-print(Dx)
-
+print(np.matmul(w, np.transpose(Dx)))
 
 
 # np.random.seed(20)
