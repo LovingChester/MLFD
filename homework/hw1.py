@@ -6,6 +6,10 @@ the problem 1.4
 import numpy as np
 import matplotlib.pyplot as plt
 
+def PLA():
+    
+    return None
+
 '''
 plot the f: x1 + x2 + 2 = 0
 '''
