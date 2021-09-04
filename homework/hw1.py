@@ -21,10 +21,17 @@ plt.plot(x1,x2)
 
 plt.grid(True)
 
+'''
+generate the random data set
+'''
 np.random.seed(12)
-D = np.random.randint(-9, 10, size=(20,2))
-print(np.transpose(D))
-plt.plot(np.transpose(D)[0],np.transpose(D)[1], 'ro')
+Dx = np.random.randint(-9, 10, size=(20,2))
+plt.plot(np.transpose(Dx)[0],np.transpose(Dx)[1], 'ro')
+
+Dy = list(map(lambda x : x[0] + x[1] + 2, Dx))
+print(Dy)
+
+Dy = np.array(Dy)
 
 plt.show()
 
