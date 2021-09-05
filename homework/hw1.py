@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 import random as rd
 
 '''
-this function will return the randomly
+this function will return the randomly selected
 misclassified data from the data set
 '''
 def select_misclassify(res, Dy):
 
     rd.seed(10)
-    print(res)
-    print(Dy)
+    # print(res)
+    # print(Dy)
     mis = []
     row = np.size(Dy, 0)
     for i in range(row):
@@ -80,20 +80,20 @@ for i in range(np.size(Dy,0)):
         positive.append(list(Dx[i]))
     else:
         negative.append(list(Dx[i]))
-print(positive)
+# print(positive)
 plt.plot(np.transpose(positive)[0], np.transpose(positive)[1], 'bo')
 plt.plot(np.transpose(negative)[0], np.transpose(negative)[1], 'rx')
 
 # initialize weight to zero vector
 w = np.zeros(3)
-print("w", w)
+# print("w", w)
 
 # insert x0
 Dx = np.insert(Dx, 0, 20*[1], axis=1)
 #print(np.matmul(w, np.transpose(Dx)))
 
-print("Dx", Dx)
-print("Dy", Dy)
+# print("Dx", Dx)
+# print("Dy", Dy)
 # row = np.size(Dy,0)
 # print(row)
 '''
@@ -107,7 +107,7 @@ print("Dy", Dy)
 Compute the weight of the final hypothesis
 '''
 final_w = PLA(Dx, Dy, w)
-print(final_w)
+# print(final_w)
 # test = np.matmul(final_w, np.transpose(Dx))
 # print(np.sign(test))
 # print(np.sign(test)-Dy)
@@ -167,29 +167,29 @@ for i in range(np.size(Dy, 0)):
         positive.append(list(Dx[i]))
     else:
         negative.append(list(Dx[i]))
-print(positive)
+# print(positive)
 plt.plot(np.transpose(positive)[0], np.transpose(positive)[1], 'bo')
 plt.plot(np.transpose(negative)[0], np.transpose(negative)[1], 'rx')
 
 # initialize weight to zero vector
 w = np.zeros(3)
-print("w", w)
+# print("w", w)
 
 # insert x0
 Dx = np.insert(Dx, 0, 20*[1], axis=1)
 #print(np.matmul(w, np.transpose(Dx)))
 
-print("Dx", Dx)
-print("Dy", Dy)
+# print("Dx", Dx)
+# print("Dy", Dy)
 
 '''
 Compute the weight of the final hypothesis
 '''
 final_w = PLA(Dx, Dy, w)
-print(final_w)
+# print(final_w)
 test = np.matmul(final_w, np.transpose(Dx))
-print(np.sign(test))
-print(np.sign(test)-Dy)
+# print(np.sign(test))
+# print(np.sign(test)-Dy)
 '''
 Plot the final hypothesis g function
 '''
@@ -246,29 +246,29 @@ for i in range(np.size(Dy, 0)):
         positive.append(list(Dx[i]))
     else:
         negative.append(list(Dx[i]))
-print(positive)
+# print(positive)
 plt.plot(np.transpose(positive)[0], np.transpose(positive)[1], 'bo')
 plt.plot(np.transpose(negative)[0], np.transpose(negative)[1], 'rx')
 
 # initialize weight to zero vector
 w = np.zeros(3)
-print("w", w)
+# print("w", w)
 
 # insert x0
 Dx = np.insert(Dx, 0, 100*[1], axis=1)
 #print(np.matmul(w, np.transpose(Dx)))
 
-print("Dx", Dx)
-print("Dy", Dy)
+# print("Dx", Dx)
+# print("Dy", Dy)
 
 '''
 Compute the weight of the final hypothesis
 '''
 final_w = PLA(Dx, Dy, w)
-print(final_w)
+# print(final_w)
 test = np.matmul(final_w, np.transpose(Dx))
-print(np.sign(test))
-print(np.sign(test)-Dy)
+# print(np.sign(test))
+# print(np.sign(test)-Dy)
 '''
 Plot the final hypothesis g function
 '''
@@ -279,3 +279,53 @@ plt.show()
 From the graph, we see that the final hypothesis successfully seperate
 the data. It is closer to the f than the previous two.
 '''
+'''
+---------------------------------------------------------------------------------------------------------
+'''
+
+'''
+1.4 problem d--------------------------------------------------------------------------------------------
+'''
+
+'''
+Plot the target function
+'''
+plt.axis([-1000, 1000, -1000, 1000])
+plt.xlabel("x1")
+plt.ylabel("x2")
+
+x1 = np.arange(-1000, 1000)
+x2 = np.array(-x1+2)
+plt.plot(x1, x2, "m")
+# plt.annotate("target function f", xy=(-25, 35),
+#              xytext=(-25, 65), arrowprops=dict(facecolor="m"))
+plt.grid(True)
+
+'''
+generate the random data set
+and plot the data set based on
+its corresponding y
+'''
+np.random.seed(20)  # reset the random seed
+Dx = np.random.randint(-1000, 1001, size=(1000, 2))
+Dy = list(map(lambda x: x[0] + x[1] - 2, Dx))
+Dy = np.sign(Dy)
+
+'''
+positive will store the data points which has +1
+negative will store the data points which has -1
+'''
+positive = []
+negative = []
+for i in range(np.size(Dy, 0)):
+    if Dy[i] == 1:
+        positive.append(list(Dx[i]))
+    else:
+        negative.append(list(Dx[i]))
+# print(positive)
+plt.plot(np.transpose(positive)[0], np.transpose(positive)[1], 'bo')
+plt.plot(np.transpose(negative)[0], np.transpose(negative)[1], 'rx')
+
+
+
+plt.show()
