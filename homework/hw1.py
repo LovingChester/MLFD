@@ -13,6 +13,7 @@ misclassified data from the data set
 '''
 def select_misclassify(res, Dy):
 
+    rd.seed(10)
     mis = []
     row = np.size(Dy, 0)
     for i in range(row):
@@ -23,29 +24,36 @@ def select_misclassify(res, Dy):
         return -1
 
     return rd.choice(mis)
-
+'''
+This function will basically implement the PLA
+'''
 def PLA(Dx, Dy, w):
 
     mis = 0
+    count = 0
     while(mis != -1):
         res = np.matmul(w, np.transpose(Dx))
         res = np.sign(res)
         mis = select_misclassify(res, Dy)
-        w = w + np.transpose(Dy)[mis] * Dx[mis]
-
+        w = w + Dy[mis] * Dx[mis]
+        count += 1
+    print("It is being updated for {} times".format(count))
     return w
 
 '''
+1.4 problem a-------------------------------------------------------------------------------------------
+'''
+'''
 plot the f: x1 + x2 - 2 = 0
 '''
-plt.axis([-10, 10, -10, 10])
+plt.axis([-100, 100, -100, 100])
 plt.xlabel("x1")
 plt.ylabel("x2")
 
-x1 = np.arange(-10, 11)
+x1 = np.arange(-100, 100)
 x2 = np.array(-x1+2)
-plt.plot(x1,x2)
-
+plt.plot(x1,x2,"m")
+plt.annotate("target function f", xy=(50, -40), xytext=(50, 0), arrowprops=dict(facecolor="m"))
 plt.grid(True)
 
 '''
@@ -53,13 +61,20 @@ generate the random data set
 and plot the data set
 '''
 np.random.seed(12)
-Dx = np.random.randint(-9, 10, size=(20,2))
-plt.plot(np.transpose(Dx)[0], np.transpose(Dx)[1], 'ro')
-
-Dy = list(map(lambda x : x[0] + x[1] - 2, Dx))
+Dx = np.random.randint(-100, 101, size=(20,2))
+Dy = list(map(lambda x: x[0] + x[1] - 2, Dx))
 Dy = np.sign(Dy)
-#Dy = Dy.reshape(20,1)
-#plt.show()
+
+positive = []
+negative = []
+for i in range(np.size(Dy,0)):
+    if Dy[i] == 1:
+        positive.append(list(Dx[i]))
+    else:
+        negative.append(list(Dx[i]))
+print(positive)
+plt.plot(np.transpose(positive)[0], np.transpose(positive)[1], 'bo')
+plt.plot(np.transpose(negative)[0], np.transpose(negative)[1], 'rx')
 
 # initialize weight to zero vector
 w = np.zeros(3)
@@ -74,6 +89,34 @@ print("Dy", Dy)
 row = np.size(Dy,0)
 print(row)
 
+'''
+We get the trained weight
+'''
+final_w = PLA(Dx, Dy, w)
+print(final_w)
+
+test = np.matmul(final_w, np.transpose(Dx))
+print(np.sign(test))
+print(np.sign(test)-Dy)
+
+new_x2 = np.array((-final_w[1]/final_w[2])*x1+(-final_w[0]/final_w[2]))
+plt.plot(x1, new_x2,"c")
+plt.annotate("final hypothesis g", xy=(40, -54), xytext=(-25, -50), arrowprops=dict(facecolor="c"))
+plt.annotate("-1", xy=(90, 90))
+plt.annotate("-1", xy=(-90, -90))
+plt.show()
+
+
+'''
+1.4 problem c-------------------------------------------------------------------------------------------
+'''
+#plt.clear()
+plt.axis([-100, 100, -100, 100])
+plt.show()
 # np.random.seed(20)
 # D = np.random.randint(-4, 5, size=(20,2))
 # print(D)
+
+'''
+---------------------------------------------------------------------------------------------------------
+'''
