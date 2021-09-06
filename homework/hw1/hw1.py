@@ -361,7 +361,7 @@ plt.plot(x1, new_x2, "c")
 plt.annotate("+1", xy=(4500, 4500))
 plt.annotate("-1", xy=(-4500, -4500))
 plt.annotate("final hypothesis g", xy=(-25, 18),
-             xytext=(-2110, -103), arrowprops=dict(facecolor="c"))
+             xytext=(-4000, -103), arrowprops=dict(facecolor="c"))
 plt.title("problem e -- maximize the window and\nzoom in for a more clear view of f and g")
 plt.show()
 
