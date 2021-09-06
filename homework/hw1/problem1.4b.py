@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Problem 2
+# # Problem b
 
 # In[1]:
 
