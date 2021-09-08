@@ -20,7 +20,7 @@ flip_record = []
 for i in range(1000):
     flip = []
     # flip for 10 times independently
-    for i in range(10):
+    for j in range(10):
         flip.append(rd.choice([1,0]))
     flip_record.append(flip)
 
