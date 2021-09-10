@@ -19,11 +19,12 @@ c_min = []
 create 1000 x 10 numpy array where 1000 represents
 1000 coins and 10 represents 10 flip
 '''
+n, p = 10, .5
 start = time.time()
 np.random.seed(100)
 for i in range(exp_time):
-    flip_record = np.random.randint(0,2, size=(1000,10))
-    flip_head = list(map(lambda x : np.count_nonzero(x), flip_record))
+    flip_record = np.random.binomial(n, p, 1000)
+    flip_head = list(flip_record)
     c_1.append(flip_head[0]/10)
     c_rand.append(rd.choice(flip_head)/10)
     c_min.append(min(flip_head)/10)
