@@ -29,14 +29,6 @@ for i in range(exp_time):
     c_rand.append(rd.choice(flip_head)/10)
     c_min.append(min(flip_head)/10)
 
-# print(flip_record)
-# print(flip_head)
-# print(np.count_nonzero(flip_record[0]))
-
-# print(c_1)
-# print(c_rand)
-# print(c_min)
-#x = np.array([1,1,2,3,4,5,3,4,10])
 n_bin = 11
 fig = plt.figure()
 ax1 = fig.add_subplot(131)
