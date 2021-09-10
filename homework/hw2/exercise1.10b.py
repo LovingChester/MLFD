@@ -24,10 +24,9 @@ start = time.time()
 np.random.seed(100)
 for i in range(exp_time):
     flip_record = np.random.binomial(n, p, 1000)
-    flip_head = list(flip_record)
-    c_1.append(flip_head[0]/10)
-    c_rand.append(rd.choice(flip_head)/10)
-    c_min.append(min(flip_head)/10)
+    c_1.append(flip_record[0]/10)
+    c_rand.append(rd.choice(flip_record)/10)
+    c_min.append(np.amin(flip_record)/10)
 
 n_bin = 11
 fig = plt.figure()
