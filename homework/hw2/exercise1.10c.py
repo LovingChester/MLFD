@@ -8,9 +8,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import math
-'''
-Each entry corresponds to a coin's flip record
-'''
 
 def prob_larger(x1, diff):
     count = 0
@@ -28,10 +25,7 @@ exp_time = 100000
 c_1 = []
 c_rand = []
 c_min = []
-'''
-create 1000 x 10 numpy array where 1000 represents
-1000 coins and 10 represents 10 flip
-'''
+
 n, p = 10, .5
 start = time.time()
 np.random.seed(100)
