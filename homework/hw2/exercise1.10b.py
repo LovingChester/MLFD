@@ -1,6 +1,6 @@
 '''
 This program will simulate experiment stated
-on problem 1.10 from LFD
+on exercise 1.10 from LFD
 @author Houhua Li
 '''
 import random as rd
