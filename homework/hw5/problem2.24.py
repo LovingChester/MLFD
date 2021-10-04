@@ -16,8 +16,9 @@ for i in range(K):
     x1, x2 = float(X[i][0]), float(X[i][1])
     avg_a += (x1+x2)
     avg_b += x1*x2
-    bias += ((x1**2)**2 + (x1**2)**2) / 2
-    
+    bias += ((x1**2)**2 + (x2**2)**2) / 2
+    var += (x1**2 + x2**2) / 2
+    # loop through X to compute var E_D
 
 avg_a = avg_a / K
 avg_b = avg_b / K
@@ -31,3 +32,4 @@ plt.show()
 
 # bias
 print("bias: {:.2f}".format(bias/K))
+print("var: {:.2f}".format(var/K))
