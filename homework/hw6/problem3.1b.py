@@ -18,13 +18,18 @@ def compute_gradient(Dx, Dy, w):
 
 def logistic_regression(Dx, Dy, w):
     t = 0
+    w_prev = None
     row = np.size(Dx, 0)
-    while(t != 1500):
+    while(True):
         g_t = compute_gradient(Dx, Dy, w)
         v_t = -g_t
+        w_prev = w.copy()
         w = w + 0.1*v_t
-        print(w)
+        if np.linalg.norm(w-w_prev) <= 0.001:
+            break
+        #print(w)
         t += 1
+    print("It is being updated for {} times".format(t))
     return w
 
 rad = 10
