@@ -3,13 +3,33 @@ import matplotlib.pyplot as plt
 import random as rd
 import math
 
+np.set_printoptions(precision=3, suppress=False, threshold=5)
 
+def compute_gradient(Dx, Dy, w):
+    row, col = np.size(Dx, 0), np.size(Dx, 1)
+    grad = np.zeros(col)
+    for i in range(row):
+        nume = np.sum(Dy[i]) * Dx[i]
+        deno = 1 + math.e ** (np.sum(np.matmul(Dx[i], np.transpose(w))) * np.sum(Dy[i]))
+        grad += nume / deno
+        #print(result)
+    return grad / (-1/row)
+
+
+def logistic_regression(Dx, Dy, w):
+    t = 0
+    row = np.size(Dx, 0)
+    while(t != 1500):
+        g_t = compute_gradient(Dx, Dy, w)
+        v_t = -g_t
+        w = w + 0.1*v_t
+        print(w)
+        t += 1
+    return w
 
 rad = 10
 thk = 5
 sep = 5
-
-np.set_printoptions(precision=3, suppress=False, threshold=5)
 
 np.random.seed(10)
 '''
@@ -63,9 +83,26 @@ pos_y = np.array(pos_y)
 pos_y = pos_y.reshape(1, -1)
 pos_y = pos_y.reshape(2000, 1)
 Dy_pos.extend(Dy_neg)
+Dy_pos = np.array(Dy_pos)
+Dy_pos = Dy_pos.reshape(1, -1)
+Dy_pos = Dy_pos.reshape(2000, 1)
 
 Dx = np.insert(pos_x, [1], pos_y, axis=1)
 Dx = np.insert(Dx, 0, 2000*[1], axis=1)
-#print(Dx)
 
 w = np.zeros(3)
+
+final_w = logistic_regression(Dx, Dy_pos, w)
+#print(compute_sum(Dx, Dy_pos, w))
+
+x.sort()
+#print(x)
+x = np.array(x)
+x = x.reshape(1,-1)
+x = x.reshape(2000,1)
+
+new_x2 = np.array((-final_w[1]/final_w[2])*x+(-final_w[0]/final_w[2]))
+plt.plot(x, new_x2, "c")
+plt.annotate("final hypothesis g", xy=(18, 11), xytext=(
+    22, 10), arrowprops=dict(facecolor="c"))
+plt.show()
