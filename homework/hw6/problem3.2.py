@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import random as rd
 import math
 
+from numpy.core.numeric import count_nonzero
+
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
 def select_misclassify(res, Dy):
@@ -39,7 +41,7 @@ rad = 10
 thk = 5
 sep = 5
 
-np.random.seed(10)
+#np.random.seed(10)
 
 rad_angle = np.random.uniform([rad, 0], [rad+thk+1, 2*math.pi], size=(2000, 2))
 
@@ -61,35 +63,39 @@ for sep in list(np.arange(0.2, 5.2, 0.2)):
     pos_y = []
     neg_x = []
     neg_y = []
-    Dy_pos = []
-    Dy_neg = []
+    Dy = []
+    x = []
+    y = []
     for i in range(2000):
         if(float(angles[i]) > math.pi):
             pos_x.append(float(x1[i]) + rad + thk/2)
             pos_y.append(float(x2[i]) - sep)
-            Dy_pos.append(1)
+            x.append(float(x1[i]) + rad + thk/2)
+            y.append(float(x2[i]) - sep)
+            Dy.append(1)
         else:
             neg_x.append(float(x1[i]))
             neg_y.append(float(x2[i]))
-            Dy_neg.append(-1)
+            x.append(float(x1[i]))
+            y.append(float(x2[i]))
+            Dy.append(-1)
 
-    pos_x.extend(neg_x)
-    x = pos_x.copy()
-    pos_x = np.array(pos_x)
-    pos_x = pos_x.reshape(1,-1)
-    pos_x = pos_x.reshape(2000,1)
-    pos_y.extend(neg_y)
-    pos_y = np.array(pos_y)
-    pos_y = pos_y.reshape(1,-1)
-    pos_y = pos_y.reshape(2000,1)
-    Dy_pos.extend(Dy_neg)
+    #x = x1.copy()
 
-    Dx = np.insert(pos_x, [1], pos_y, axis=1)
+    x = np.array(x)
+    x = x.reshape(1,-1)
+    x = x.reshape(2000,1)
+
+    y = np.array(y)
+    y = y.reshape(1,-1)
+    y = y.reshape(2000,1)
+
+    Dx = np.insert(x, [1], y, axis=1)
     Dx = np.insert(Dx, 0, 2000*[1], axis=1)
     #print(Dx)
 
     w = np.zeros(3)
-    final_w, count = PLA(Dx, Dy_pos, w)
+    final_w, count = PLA(Dx, Dy, w)
     times.append(count)
 
 plt.xlabel("sep")

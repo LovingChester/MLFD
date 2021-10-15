@@ -39,7 +39,7 @@ sep = 5
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-np.random.seed(10)
+#np.random.seed(5)
 '''
 generate random radius and angle
 '''
@@ -66,46 +66,44 @@ pos_x = []
 pos_y = []
 neg_x = []
 neg_y = []
-Dy_pos = []
-Dy_neg = []
+Dy = []
+x = []
+y = []
 for i in range(2000):
     if(float(angles[i]) > math.pi):
         pos_x.append(float(x1[i]) + rad + thk/2)
         pos_y.append(float(x2[i]) - sep)
-        Dy_pos.append(1)
+        x.append(float(x1[i]) + rad + thk/2)
+        y.append(float(x2[i]) - sep)
+        Dy.append(1)
     else:
         neg_x.append(float(x1[i]))
         neg_y.append(float(x2[i]))
-        Dy_neg.append(-1)
+        x.append(float(x1[i]))
+        y.append(float(x2[i]))
+        Dy.append(-1)
 
 plt.plot(pos_x, pos_y, "bo")
 plt.plot(neg_x, neg_y, "ro")
 
-pos_x.extend(neg_x)
-x = pos_x.copy()
-pos_x = np.array(pos_x)
-pos_x = pos_x.reshape(1,-1)
-pos_x = pos_x.reshape(2000,1)
-pos_y.extend(neg_y)
-pos_y = np.array(pos_y)
-pos_y = pos_y.reshape(1,-1)
-pos_y = pos_y.reshape(2000,1)
-Dy_pos.extend(Dy_neg)
+#x = x1.copy()
 
-Dx = np.insert(pos_x, [1], pos_y, axis=1)
-Dx = np.insert(Dx, 0, 2000*[1], axis=1)
-#print(Dx)
-
-w = np.zeros(3)
-final_w = PLA(Dx, Dy_pos, w)
-
-x.sort()
-#print(x)
 x = np.array(x)
 x = x.reshape(1,-1)
 x = x.reshape(2000,1)
 
+y = np.array(y)
+y = y.reshape(1,-1)
+y = y.reshape(2000,1)
+
+Dx = np.insert(x, [1], y, axis=1)
+Dx = np.insert(Dx, 0, 2000*[1], axis=1)
+#print(Dx)
+
+w = np.zeros(3)
+final_w = PLA(Dx, Dy, w)
+
 new_x2 = np.array((-final_w[1]/final_w[2])*x+(-final_w[0]/final_w[2]))
 plt.plot(x, new_x2,"c")
-plt.annotate("final hypothesis g", xy=(18, 11), xytext=(22, 10), arrowprops=dict(facecolor="c"))
+#plt.annotate("final hypothesis g", xy=(18, 11), xytext=(22, 10), arrowprops=dict(facecolor="c"))
 plt.show()
