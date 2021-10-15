@@ -23,15 +23,12 @@ def PLA(Dx, Dy, w):
 
     mis = 0
     count = 0
-    w_prev = None
     while(True):
         res = np.matmul(w, np.transpose(Dx))
         res = np.sign(res)
         mis = select_misclassify(res, Dy)
         if mis == -1: break
-        w_prev = w.copy()
         w = w + Dy[mis] * Dx[mis]
-        if np.linalg.norm(w-w_prev) <= 0.01: break
         count += 1
     print("It is being updated for {} times".format(count))
     return w
@@ -106,8 +103,7 @@ Dx = np.insert(Dx, 0, 2000*[1], axis=1)
 w = np.zeros(3)
 final_w = PLA(Dx, Dy, w)
 
-tmp = np.arange(center[0][0]-rad-thk, center[0][0]+2*rad+thk)
-new_x2 = np.array((-final_w[1]/final_w[2])*tmp+(-final_w[0]/final_w[2]))
-plt.plot(tmp, new_x2,"c")
+new_x2 = np.array((-final_w[1]/final_w[2])*x+(-final_w[0]/final_w[2]))
+plt.plot(x, new_x2,"c")
 #plt.annotate("final hypothesis g", xy=(18, 11), xytext=(22, 10), arrowprops=dict(facecolor="c"))
 plt.show()
