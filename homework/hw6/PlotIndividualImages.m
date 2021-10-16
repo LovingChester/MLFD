@@ -3,9 +3,9 @@
 
 clear
 format short g
-load zip.train
-digits=zip(:,1);
-grayscale=zip(:,2:end);
+load ZipDigits.train
+digits=ZipDigits(:,1);
+grayscale=ZipDigits(:,2:end);
 
 [n,d]=size(grayscale);
 w=floor(sqrt(d));
