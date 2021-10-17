@@ -5,7 +5,7 @@ import math
 
 def select_misclassify(res, Dy):
 
-    rd.seed(10)
+    #rd.seed(10)
     mis = []
     row = np.size(Dy, 0)
     for i in range(row):

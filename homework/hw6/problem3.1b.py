@@ -5,31 +5,10 @@ import math
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-def compute_gradient(Dx, Dy, w):
-    row, col = np.size(Dx, 0), np.size(Dx, 1)
-    grad = np.zeros(col)
-    for i in range(row):
-        nume = np.sum(Dy[i]) * Dx[i]
-        deno = 1 + math.e ** (np.sum(np.matmul(Dx[i], np.transpose(w))) * np.sum(Dy[i]))
-        grad += nume / deno
-        #print(result)
-    return grad / (-1/row)
-
-
-def logistic_regression(Dx, Dy, w):
-    t = 0
-    w_prev = None
-    row = np.size(Dx, 0)
-    while(True):
-        g_t = compute_gradient(Dx, Dy, w)
-        v_t = -g_t
-        w_prev = w.copy()
-        w = w + 0.1*v_t
-        if np.linalg.norm(w-w_prev) <= 0.001:
-            break
-        #print(w)
-        t += 1
-    print("It is being updated for {} times".format(t))
+def linear_regression(Dx, Dy):
+    inv = np.linalg.pinv(np.matmul(np.transpose(Dx), Dx))
+    x_plus = np.matmul(inv, np.transpose(Dx))
+    w = np.matmul(x_plus, Dy)
     return w
 
 rad = 10
@@ -93,13 +72,17 @@ y = np.array(y)
 y = y.reshape(1,-1)
 y = y.reshape(2000,1)
 
+Dy = np.array(Dy)
+Dy = Dy.reshape(1,-1)
+Dy = Dy.reshape(2000,1)
+
 Dx = np.insert(x, [1], y, axis=1)
 Dx = np.insert(Dx, 0, 2000*[1], axis=1)
-#print(Dx)
+print(Dy)
 
 w = np.zeros(3)
 
-final_w = logistic_regression(Dx, Dy, w)
+final_w = linear_regression(Dx, Dy)
 #print(compute_sum(Dx, Dy_pos, w))
 
 new_x2 = np.array((-final_w[1]/final_w[2])*x+(-final_w[0]/final_w[2]))
