@@ -54,12 +54,17 @@ for items in open("ZipDigits.train"):
         intensity_five.append(average_intensity(grayscale))
         symmetry_five.append(symmetric_score(grayscale))
 
-# plt.title("ZipDigit")
-# plt.xlabel("average intensity")
-# plt.ylabel("symmetry")
-# plt.plot(intensity_one, symmetry_one, 'bo')
-# plt.plot(intensity_five, symmetry_five, 'rx')
-# plt.show()
+plt.title("ZipDigit train")
+plt.xlabel("average intensity")
+plt.ylabel("symmetry")
+plt.plot(intensity_one, symmetry_one, 'bo')
+plt.plot(intensity_five, symmetry_five, 'rx')
+plt.show()
+
+intensity_one.clear()
+symmetry_one.clear()
+intensity_five.clear()
+symmetry_five.clear()
 
 for items in open("ZipDigits.test"):
     item_list = items.strip().split(' ')
@@ -76,7 +81,7 @@ for items in open("ZipDigits.test"):
         intensity_five.append(average_intensity(grayscale))
         symmetry_five.append(symmetric_score(grayscale))
 
-plt.title("ZipDigit")
+plt.title("ZipDigit test")
 plt.xlabel("average intensity")
 plt.ylabel("symmetry")
 plt.plot(intensity_one, symmetry_one, 'bo')
