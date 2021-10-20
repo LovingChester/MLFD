@@ -101,10 +101,11 @@ def gather_data(filename):
     final_w = linear_regression(Dx, Dy)
     new_x2 = np.array((-final_w[1]/final_w[2])*intensitys+(-final_w[0]/final_w[2]))
     plt.plot(intensitys, new_x2, "c")
-    plt.show()
-
+    
     return Dx, Dy, final_w, count
 
 if __name__ == '__main__':
     gather_data("ZipDigits.train")
+    plt.show()
     gather_data("ZipDigits.test")
+    plt.show()
