@@ -105,8 +105,6 @@ def gather_data(filename):
 
     return Dx, Dy, final_w
 
-
-
 if __name__ == '__main__':
     gather_data("ZipDigits.train")
     gather_data("ZipDigits.test")
