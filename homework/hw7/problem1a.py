@@ -12,7 +12,6 @@ def linear_regression(Dx, Dy):
     w = np.matmul(x_plus, Dy)
     return w
 
-
 '''
 Compute the average intensity of the grayscale given
 Input: grayscale pixel
