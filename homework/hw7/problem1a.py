@@ -98,11 +98,13 @@ def gather_data(filename):
     Dx = np.insert(intensitys, [1], symmetrys, axis=1)
     Dx = np.insert(Dx, 0, count*[1], axis=1)
 
-    w = np.zeros(3)
     final_w = linear_regression(Dx, Dy)
     new_x2 = np.array((-final_w[1]/final_w[2])*intensitys+(-final_w[0]/final_w[2]))
     plt.plot(intensitys, new_x2, "c")
     plt.show()
+
+    return intensitys, symmetrys, Dy, final_w
+
 
 
 if __name__ == '__main__':
