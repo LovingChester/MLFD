@@ -103,7 +103,7 @@ def gather_data(filename):
     plt.plot(intensitys, new_x2, "c")
     plt.show()
 
-    return intensitys, symmetrys, Dy, final_w
+    return Dx, Dy, final_w
 
 
 
