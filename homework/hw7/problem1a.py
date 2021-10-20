@@ -41,119 +41,70 @@ def symmetric_score(grayscale):
     avg = (horizontal_zero + vertical_zero) / 2
     return avg / 256
 
-intensitys = []
-symmetrys = []
-numbers = []
-intensity_one = []
-intensity_five = []
-symmetry_one = []
-symmetry_five = []
-count = 0
-for items in open("ZipDigits.train"):
-    item_list = items.strip().split(' ')
-    item_list = list(map(lambda x: float(x), item_list))
-    number = item_list.pop(0)
-    grayscale = np.array(item_list)
-    grayscale = np.reshape(grayscale, (16, 16))
-    intensity = average_intensity(grayscale)
-    symmetry = symmetric_score(grayscale)
-    if number == 1.0:
-        symmetrys.append(symmetry)
-        intensitys.append(intensity)
-        intensity_one.append(intensity)
-        symmetry_one.append(symmetry)
-        numbers.append(1)
-        count += 1
-    elif number == 5.0:
-        symmetrys.append(symmetry)
-        intensitys.append(intensity)
-        intensity_five.append(intensity)
-        symmetry_five.append(symmetry)
-        numbers.append(-1)
-        count += 1
+def gather_data(filename):
+    intensitys = []
+    symmetrys = []
+    numbers = []
+    intensity_one = []
+    intensity_five = []
+    symmetry_one = []
+    symmetry_five = []
+    count = 0
+    for items in open(filename):
+        item_list = items.strip().split(' ')
+        item_list = list(map(lambda x: float(x), item_list))
+        number = item_list.pop(0)
+        grayscale = np.array(item_list)
+        grayscale = np.reshape(grayscale, (16, 16))
+        intensity = average_intensity(grayscale)
+        symmetry = symmetric_score(grayscale)
+        if number == 1.0:
+            symmetrys.append(symmetry)
+            intensitys.append(intensity)
+            intensity_one.append(intensity)
+            symmetry_one.append(symmetry)
+            numbers.append(1)
+            count += 1
+        elif number == 5.0:
+            symmetrys.append(symmetry)
+            intensitys.append(intensity)
+            intensity_five.append(intensity)
+            symmetry_five.append(symmetry)
+            numbers.append(-1)
+            count += 1
 
-plt.title("ZipDigit train")
-plt.xlabel("average intensity")
-plt.ylabel("symmetry")
-plt.plot(intensity_one, symmetry_one, 'bo')
-plt.plot(intensity_five, symmetry_five, 'rx')
+    if(filename.split('.')[1] == "train"):
+        plt.title("ZipDigit train")
+    else:
+        plt.title("ZipDigit test")
 
-intensitys = np.array(intensitys)
-intensitys = intensitys.reshape(1, -1)
-intensitys = intensitys.reshape(count, 1)
+    plt.xlabel("average intensity")
+    plt.ylabel("symmetry")
+    plt.plot(intensity_one, symmetry_one, 'bo')
+    plt.plot(intensity_five, symmetry_five, 'rx')
 
-symmetrys = np.array(symmetrys)
-symmetrys = symmetrys.reshape(1, -1)
-symmetrys = symmetrys.reshape(count, -1)
+    intensitys = np.array(intensitys)
+    intensitys = intensitys.reshape(1, -1)
+    intensitys = intensitys.reshape(count, 1)
 
-Dy = np.array(numbers)
-Dy = Dy.reshape(1, -1)
-Dy = Dy.reshape(count, 1)
+    symmetrys = np.array(symmetrys)
+    symmetrys = symmetrys.reshape(1, -1)
+    symmetrys = symmetrys.reshape(count, -1)
 
-Dx = np.insert(intensitys, [1], symmetrys, axis=1)
-Dx = np.insert(Dx, 0, count*[1], axis=1)
+    Dy = np.array(numbers)
+    Dy = Dy.reshape(1, -1)
+    Dy = Dy.reshape(count, 1)
 
-w = np.zeros(3)
-final_w = linear_regression(Dx, Dy)
-new_x2 = np.array((-final_w[1]/final_w[2])*intensitys+(-final_w[0]/final_w[2]))
-plt.plot(intensitys, new_x2, "c")
-plt.show()
+    Dx = np.insert(intensitys, [1], symmetrys, axis=1)
+    Dx = np.insert(Dx, 0, count*[1], axis=1)
+
+    w = np.zeros(3)
+    final_w = linear_regression(Dx, Dy)
+    new_x2 = np.array((-final_w[1]/final_w[2])*intensitys+(-final_w[0]/final_w[2]))
+    plt.plot(intensitys, new_x2, "c")
+    plt.show()
 
 
-intensitys = []
-symmetrys = []
-numbers.clear()
-intensity_one.clear()
-intensity_five.clear()
-symmetry_one.clear()
-symmetry_five.clear()
-count = 0
-for items in open("ZipDigits.test"):
-    item_list = items.strip().split(' ')
-    item_list = list(map(lambda x: float(x), item_list))
-    number = item_list.pop(0)
-    grayscale = np.array(item_list)
-    grayscale = np.reshape(grayscale, (16, 16))
-    intensity = average_intensity(grayscale)
-    symmetry = symmetric_score(grayscale)
-    if number == 1.0:
-        symmetrys.append(symmetry)
-        intensitys.append(intensity)
-        intensity_one.append(intensity)
-        symmetry_one.append(symmetry)
-        numbers.append(1)
-        count += 1
-    elif number == 5.0:
-        symmetrys.append(symmetry)
-        intensitys.append(intensity)
-        intensity_five.append(intensity)
-        symmetry_five.append(symmetry)
-        numbers.append(-1)
-        count += 1
-
-plt.title("ZipDigit test")
-plt.xlabel("average intensity")
-plt.ylabel("symmetry")
-plt.plot(intensity_one, symmetry_one, 'bo')
-plt.plot(intensity_five, symmetry_five, 'rx')
-
-intensitys = np.array(intensitys)
-intensitys = intensitys.reshape(1, -1)
-intensitys = intensitys.reshape(count, 1)
-
-symmetrys = np.array(symmetrys)
-symmetrys = symmetrys.reshape(1, -1)
-symmetrys = symmetrys.reshape(count, -1)
-
-Dy = np.array(numbers)
-Dy = Dy.reshape(1, -1)
-Dy = Dy.reshape(count, 1)
-
-Dx = np.insert(intensitys, [1], symmetrys, axis=1)
-Dx = np.insert(Dx, 0, count*[1], axis=1)
-
-w = np.zeros(3)
-final_w = linear_regression(Dx, Dy)
-new_x2 = np.array((-final_w[1]/final_w[2])*intensitys+(-final_w[0]/final_w[2]))
-plt.plot(intensitys, new_x2, "c")
-plt.show()
+if __name__ == '__main__':
+    gather_data("ZipDigits.train")
+    gather_data("ZipDigits.test")
