@@ -63,6 +63,7 @@ def gather_data(filename):
 
     Dx = np.insert(intensitys, [1], symmetrys, axis=1)
 
+    # perform transform feature
     poly = PolynomialFeatures(3)
     Dx = poly.fit_transform(Dx)
 
@@ -76,5 +77,10 @@ def gather_data(filename):
 
 if __name__ == '__main__':
     Dx, Dy, final_w, count = gather_data("ZipDigits.train")
-    print(final_w)
+    E_in = np.linalg.norm(np.matmul(Dx, final_w) - Dy) ** 2 / count
+    print("E_in is: {:.3f}".format(E_in))
+
+    Dx, Dy, final_w, count = gather_data("ZipDigits.test")
+    E_test = np.linalg.norm(np.matmul(Dx, final_w) - Dy) ** 2 / count
+    print("E_test is: {:.3f}".format(E_test))
 
