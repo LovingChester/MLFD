@@ -69,6 +69,9 @@ def gather_data(filename):
     poly = PolynomialFeatures(3)
     Dx = poly.fit_transform(Dx)
 
+    if filename.split('.')[1] != 'train':
+        return intensitys, Dx, Dy, count
+
     final_w = linear_regression(Dx, Dy)
     # new_x2 = np.array((-final_w[1]/final_w[2]) *
     #                   intensitys+(-final_w[0]/final_w[2]))
@@ -82,25 +85,7 @@ if __name__ == '__main__':
     E_in = np.linalg.norm(np.matmul(Dx, final_w) - Dy) ** 2 / count
     print("E_in is: {:.3f}".format(E_in))
 
-    #arr = range(0.0, 1.1, 0.01)
-    x_axis = []
-    y_axis = []
-    #n = 0.5
-    x = symbols('x')
-    for n in np.arange(0, 1.1, 0.1):
-        y = solve(final_w[0] + final_w[1]*n + final_w[2]*x + final_w[3]*n**2 + \
-            final_w[4]*n*x + final_w[5]*x**2 + final_w[6]*n**3 + final_w[7]*n**2*x + \
-            final_w[8]*n*x**2 + final_w[9]*x**3, x)
-        # for num in y:
-        #     x_axis.append(n)
-        #     y_axis.append(num[0].real)
-        print(float(y[0][0]))
-        
-    # plt.plot(x_axis, y_axis, 'b')
-    # print(y[0][0])
-    # plt.plot([y[0][0]], [0], 'bx')
-    # plt.show()
-    # Dx, Dy, final_w, count = gather_data("ZipDigits.test")
-    # E_test = np.linalg.norm(np.matmul(Dx, final_w) - Dy) ** 2 / count
-    # print("E_test is: {:.3f}".format(E_test))
+    intensitys, Dx, Dy, count = gather_data("ZipDigits.test")
+    E_test = np.linalg.norm(np.matmul(Dx, final_w) - Dy) ** 2 / count
+    print("E_test is: {:.3f}".format(E_test))
 
