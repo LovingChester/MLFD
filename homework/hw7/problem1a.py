@@ -98,6 +98,9 @@ def gather_data(filename):
     Dx = np.insert(intensitys, [1], symmetrys, axis=1)
     Dx = np.insert(Dx, 0, count*[1], axis=1)
 
+    if filename.split('.')[1] != 'train':
+        return intensitys, Dx, Dy, count
+
     final_w = linear_regression(Dx, Dy)
     new_x2 = np.array((-final_w[1]/final_w[2])*intensitys+(-final_w[0]/final_w[2]))
     plt.plot(intensitys, new_x2, "c")
@@ -105,7 +108,9 @@ def gather_data(filename):
     return Dx, Dy, final_w, count
 
 if __name__ == '__main__':
-    gather_data("ZipDigits.train")
+    Dx, Dy, final_w, count = gather_data("ZipDigits.train")
     plt.show()
-    gather_data("ZipDigits.test")
+    intensitys, Dx, Dy, count = gather_data("ZipDigits.test")
+    new_x2 = np.array((-final_w[1]/final_w[2])*intensitys+(-final_w[0]/final_w[2]))
+    plt.plot(intensitys, new_x2, "c")
     plt.show()
