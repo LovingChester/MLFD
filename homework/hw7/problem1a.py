@@ -23,6 +23,7 @@ def linear_regression(Dx, Dy):
     inv = np.linalg.pinv(np.matmul(np.transpose(Dx), Dx))
     x_plus = np.matmul(inv, np.transpose(Dx))
     w = np.matmul(x_plus, Dy)
+    # start pocket algorithm
     t = 0
     while t < 1000:
         # run PLA
