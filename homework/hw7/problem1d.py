@@ -4,8 +4,6 @@ import random as rd
 import math
 from sklearn.preprocessing import PolynomialFeatures
 from problem1a import *
-from sympy import *
-from sympy import roots, solve_poly_system
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 

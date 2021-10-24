@@ -3,13 +3,34 @@ import matplotlib.pyplot as plt
 import random as rd
 import math
 
+from numpy.core.fromnumeric import reshape
+
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-# linear regression for classification
+def select_missclassify(diff):
+    mis = []
+    for i in range(len(diff)):
+        if diff[i] != 0:
+            mis.append(i)
+    
+    if len(mis) == 0:
+        return -1
+    
+    return rd.choice(mis)
+
+# linear regression for classification followed by pocket algorithm
 def linear_regression(Dx, Dy):
     inv = np.linalg.pinv(np.matmul(np.transpose(Dx), Dx))
     x_plus = np.matmul(inv, np.transpose(Dx))
     w = np.matmul(x_plus, Dy)
+    t = 0
+    while t < 100:
+        # run PLA
+        res = np.sign(np.matmul(Dx, w))
+        diff = res - Dy
+        mis = select_missclassify(list(np.transpose(diff)[0]))
+        
+        t = t + 1
     return w
 
 '''
