@@ -24,12 +24,17 @@ def linear_regression(Dx, Dy):
     x_plus = np.matmul(inv, np.transpose(Dx))
     w = np.matmul(x_plus, Dy)
     t = 0
-    while t < 100:
+    while t < 1000:
         # run PLA
         res = np.sign(np.matmul(Dx, w))
         diff = res - Dy
         mis = select_missclassify(list(np.transpose(diff)[0]))
-        
+        #print(np.transpose(Dx[[mis],:]), Dy[mis])
+        tmp_w = w + Dy[mis][0] * np.transpose(Dx[[mis],:])
+        new_diff = np.sign(np.matmul(Dx, tmp_w)) - Dy
+        # if the new w can classify the point better, update it
+        if np.count_nonzero(new_diff) < np.count_nonzero(diff):
+            w = tmp_w
         t = t + 1
     return w
 
