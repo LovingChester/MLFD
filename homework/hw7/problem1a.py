@@ -30,7 +30,6 @@ def linear_regression(Dx, Dy):
         res = np.sign(np.matmul(Dx, w))
         diff = res - Dy
         mis = select_missclassify(list(np.transpose(diff)[0]))
-        #print(np.transpose(Dx[[mis],:]), Dy[mis])
         tmp_w = w + Dy[mis][0] * np.transpose(Dx[[mis],:])
         new_diff = np.sign(np.matmul(Dx, tmp_w)) - Dy
         # if the new w can classify the point better, update it
