@@ -1,9 +1,14 @@
+from typing import final
 import numpy as np
 import matplotlib.pyplot as plt
 import random as rd
 import math
 from sklearn.preprocessing import PolynomialFeatures
+from sympy.core import symbol
 from problem1a import *
+from sympy.solvers import solve
+from sympy import Symbol
+from sympy.abc import x, y
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
@@ -82,8 +87,23 @@ if __name__ == '__main__':
     Dx, Dy, final_w, count = gather_data("ZipDigits.train")
     E_in = np.linalg.norm(np.matmul(Dx, final_w) - Dy) ** 2 / count
     print("E_in is: {:.3f}".format(E_in))
+    
+    x1 = np.linspace(0, 1, num=100)
+    x2 = np.linspace(0, 1, num=100)
+    X1, X2 = np.meshgrid(x1, x2)
+    X = np.insert(X1.reshape(1, -1).reshape(10000, 1), [1], X2.reshape(1, -1).reshape(10000, 1), axis=1)
+    #print(X)
+    poly = PolynomialFeatures(3)
+    X_poly = poly.fit_transform(X)
+    result = np.matmul(X_poly, final_w)
+    result = np.reshape(result, np.shape(X1))
+    # print(X1, X2)
+    plt.contour(X1, X2, result, 1)
+    plt.show()
 
     intensitys, Dx, Dy, count = gather_data("ZipDigits.test")
     E_test = np.linalg.norm(np.matmul(Dx, final_w) - Dy) ** 2 / count
     print("E_test is: {:.3f}".format(E_test))
+    plt.contour(X1, X2, result, 1)
+    plt.show()
 
