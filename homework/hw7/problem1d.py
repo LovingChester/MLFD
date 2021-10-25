@@ -76,9 +76,6 @@ def gather_data(filename):
         return intensitys, Dx, Dy, count
 
     final_w = linear_regression(Dx, Dy)
-    # new_x2 = np.array((-final_w[1]/final_w[2]) *
-    #                   intensitys+(-final_w[0]/final_w[2]))
-    # plt.plot(intensitys, new_x2, "c")
 
     return Dx, Dy, final_w, count
 
@@ -92,12 +89,11 @@ if __name__ == '__main__':
     x2 = np.linspace(0, 1, num=100)
     X1, X2 = np.meshgrid(x1, x2)
     X = np.insert(X1.reshape(1, -1).reshape(10000, 1), [1], X2.reshape(1, -1).reshape(10000, 1), axis=1)
-    #print(X)
     poly = PolynomialFeatures(3)
     X_poly = poly.fit_transform(X)
     result = np.matmul(X_poly, final_w)
     result = np.reshape(result, np.shape(X1))
-    # print(X1, X2)
+    print(result)
     plt.contour(X1, X2, result, 1)
     plt.show()
 
