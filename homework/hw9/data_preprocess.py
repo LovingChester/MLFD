@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import random as rd
 import math
 
+np.random.seed(10)
+
 '''
 Compute the average intensity of the grayscale given
 Input: grayscale pixel
@@ -75,15 +77,31 @@ def gather_data(filenames):
     symmetrys_max = np.max(np.abs(symmetrys))
     symmetrys = symmetrys / symmetrys_max
 
-    intensity_one = np.array(intensity_one) / intensitys_max
-    intensity_other = np.array(intensity_other) / intensitys_max
+    # intensity_one = np.array(intensity_one) / intensitys_max
+    # intensity_other = np.array(intensity_other) / intensitys_max
 
-    symmetry_one = np.array(symmetry_one) / symmetrys_max
-    symmetry_other = np.array(symmetry_other) / symmetrys_max
+    # symmetry_one = np.array(symmetry_one) / symmetrys_max
+    # symmetry_other = np.array(symmetry_other) / symmetrys_max
 
-    plt.scatter(intensity_one, symmetry_one, c='b', marker='o')
-    plt.scatter(intensity_other, symmetry_other, c='r', marker='x')
+    # plt.scatter(intensity_one, symmetry_one, c='b', marker='o')
+    # plt.scatter(intensity_other, symmetry_other, c='r', marker='x')
+
+    Dx = np.insert(intensitys, [1], symmetrys, axis=1)
+    Dx = np.insert(Dx, 0, count*[1], axis=1)
+
+    Dy = np.array(numbers)
+    Dy = np.transpose(Dy.reshape(1, -1))
+
+    # randomly select 300 points for test
+    random_indices = np.random.choice(count, size=300, replace=False)
+    Dx_train = Dx[random_indices, :]
+    Dy_train = Dy[random_indices, :]
+
+    Dx_test = np.delete(Dx, random_indices, axis=0)
+    Dy_test = np.delete(Dy, random_indices, axis=0)
+
+    return Dx_train, Dy_train, Dx_test, Dy_test
 
 if __name__ == '__main__':
     gather_data(["ZipDigits.train", "ZipDigits.test"])
-    plt.show()
+    #plt.show()
