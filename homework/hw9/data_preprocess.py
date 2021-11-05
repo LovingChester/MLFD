@@ -87,7 +87,7 @@ def gather_data(filenames):
     # plt.scatter(intensity_other, symmetry_other, c='r', marker='x')
 
     Dx = np.insert(intensitys, [1], symmetrys, axis=1)
-    Dx = np.insert(Dx, 0, count*[1], axis=1)
+    # Dx = np.insert(Dx, 0, count*[1], axis=1)
 
     Dy = np.array(numbers)
     Dy = np.transpose(Dy.reshape(1, -1))
