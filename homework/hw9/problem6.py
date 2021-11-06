@@ -15,10 +15,7 @@ Zy_test = np.copy(Dy_test)
 # has regularization
 w_reg = linear_regression(Zx_train, Zy_train, 0.01)
 row = np.size(Zx_test, 0)
-y_pred = np.matmul(Zx_test, w_reg)
-one = np.ones((row, 1))
-e = np.full((row, 1), np.e)
+y_pred = np.sign(np.matmul(Zx_test, w_reg))
 
-E_test = np.sum(np.log(one + e ** (-Zy_test * y_pred))) / row
-
+E_test = 0
 print("{}".format(E_test))
