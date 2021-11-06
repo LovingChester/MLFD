@@ -17,5 +17,7 @@ w_reg = linear_regression(Zx_train, Zy_train, 0.01)
 row = np.size(Zx_test, 0)
 y_pred = np.sign(np.matmul(Zx_test, w_reg))
 
-E_test = 0
+diff = y_pred - Dy_test
+
+E_test = np.count_nonzero(diff) / row
 print("{}".format(E_test))
