@@ -20,4 +20,4 @@ y_pred = np.sign(np.matmul(Zx_test, w_reg))
 diff = y_pred - Dy_test
 
 E_test = np.count_nonzero(diff) / row
-print("{}".format(E_test))
+print("The classfication error is {}".format(E_test))
