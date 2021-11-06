@@ -8,7 +8,7 @@ Dx_train, Dy_train, Dx_test, Dy_test = gather_data(["ZipDigits.train", "ZipDigit
 
 plt.xlabel("intensity")
 plt.ylabel("symmetry")
-plt.title("Has regularization: alpha = 2")
+plt.title("Has regularization: lambda = 2")
 plot_points(Dx_train, Dy_train)
 
 Zx_train = poly_transform(Dx_train[:,[0]], Dx_train[:,[1]])
