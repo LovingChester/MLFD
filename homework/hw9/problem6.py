@@ -13,11 +13,11 @@ Zx_test = poly_transform(Dx_test[:, [0]], Dx_test[:, [1]])
 Zy_test = np.copy(Dy_test)
 
 # has regularization
-w_reg = linear_regression(Zx_train, Zy_train, 0.01)
+w_reg = linear_regression(Zx_train, Zy_train, 0.1)
 row = np.size(Zx_test, 0)
 y_pred = np.sign(np.matmul(Zx_test, w_reg))
 
 diff = y_pred - Dy_test
 
 E_test = np.count_nonzero(diff) / row
-print("{}".format(E_test))
+print("The classfication error is {}".format(E_test))

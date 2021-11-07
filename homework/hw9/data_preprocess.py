@@ -66,11 +66,14 @@ def gather_data(filenames):
     
     intensitys = np.array(intensitys)
     intensitys = np.transpose(intensitys.reshape(1, -1))
-    intensitys_max = np.max(np.abs(intensitys))
-    intensitys = intensitys / intensitys_max
-
     symmetrys = np.array(symmetrys)
     symmetrys = np.transpose(symmetrys.reshape(1, -1))
+    
+    intensitys = intensitys - np.average(intensitys) * np.ones((count, 1))
+    symmetrys = symmetrys - np.average(symmetrys) * np.ones((count, 1))
+
+    intensitys_max = np.max(np.abs(intensitys))
+    intensitys = intensitys / intensitys_max
     symmetrys_max = np.max(np.abs(symmetrys))
     symmetrys = symmetrys / symmetrys_max
 
