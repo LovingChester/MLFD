@@ -41,15 +41,17 @@ Zy_train = np.copy(Dy_train)
 Zx_test = poly_transform(Dx_test[:, [0]], Dx_test[:, [1]])
 Zy_test = np.copy(Dy_test)
 
-plt.title("E_cv and E_test vs alpha")
+#plt.axis([0, 1, 0, 0.2])
+plt.title("E_cv and E_test vs lambda")
 plt.xlabel("lambda")
 plt.ylabel("error")
 
-alphas = list(np.arange(0.01, 2.01, 0.01))
+alphas = list(np.arange(0, 2.01, 0.01))
 E_cvs = []
 for alpha in alphas:
     E_cvs.append(compute_E_cv(Zx_train, Zy_train, alpha))
-
+print(E_cvs.index(min(E_cvs)))
+print(alphas[8])
 plt.plot(alphas, E_cvs)
 
 E_tests = []

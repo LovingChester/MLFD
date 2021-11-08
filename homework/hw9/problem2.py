@@ -34,8 +34,8 @@ if __name__ == '__main__':
     # no regularization
     w_reg = linear_regression(Zx_train, Zy_train, 0)
 
-    x1 = np.linspace(0, 1, num=100)
-    x2 = np.linspace(0, 1, num=100)
+    x1 = np.linspace(-1, 1, num=100)
+    x2 = np.linspace(-1, 1, num=100)
     X1, X2 = np.meshgrid(x1, x2)
     X = np.insert(X1.reshape(1, -1).reshape(10000, 1), [1], X2.reshape(1, -1).reshape(10000, 1), axis=1)
     Z_X = poly_transform(X[:,[0]], X[:, [1]])
