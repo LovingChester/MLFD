@@ -50,8 +50,8 @@ alphas = list(np.arange(0, 2.01, 0.01))
 E_cvs = []
 for alpha in alphas:
     E_cvs.append(compute_E_cv(Zx_train, Zy_train, alpha))
-print(E_cvs.index(min(E_cvs)))
-print(alphas[8])
+# print(E_cvs.index(min(E_cvs)))
+print(alphas[E_cvs.index(min(E_cvs))])
 plt.plot(alphas, E_cvs)
 
 E_tests = []
