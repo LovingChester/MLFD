@@ -66,3 +66,21 @@ for i in range(10):
 # plt.plot(np.transpose(D)[0], np.transpose(D)[1], 'bo')
 # plt.plot(np.transpose(centers)[0], np.transpose(centers)[1], 'rx')
 # plt.show()
+
+# compute the radius for each cluster
+radius = []
+for i in range(10):
+    center = centers[i]
+    distances = []
+    for j in range(len(center_cluster[i])):
+        dist = np.linalg.norm(center_cluster[i][j] - center)
+        distances.append(dist)
+    radius.append(max(distances))
+
+for i in range(10000):
+    distances = []
+    for j in range(10):
+        dist = np.linalg.norm(center[j], D_query[i])
+        distances.append(dist)
+    index = distances.index(min(distances))
+    
