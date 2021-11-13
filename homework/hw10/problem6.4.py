@@ -77,20 +77,20 @@ Dx_test = np.array(Dx_test)
 row = np.size(Dx_test, 0)
 
 # 1-NN
-# plt.title("1-NN decision region")
-# for i in range(row):
-#     # store the distance
-#     distances = []
-#     for j in range(2000):
-#         dist = np.linalg.norm(Dx[j] - Dx_test[i])
-#         distances.append(dist)
-#     index = distances.index(min(distances))
-#     if Dy[index] == 1:
-#         plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='#4169E1', marker='o')
-#     else:
-#         plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='#FF6347', marker='o')
+plt.title("1-NN decision region")
+for i in range(row):
+    # store the distance
+    distances = []
+    for j in range(2000):
+        dist = np.linalg.norm(Dx[j] - Dx_test[i])
+        distances.append(dist)
+    index = distances.index(min(distances))
+    if Dy[index] == 1:
+        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='#4169E1', marker='o')
+    else:
+        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='#FF6347', marker='o')
 
-# plt.show()
+plt.show()
 
 # 3-NN
 plt.title("3-NN decision region")
