@@ -46,21 +46,21 @@ for i in range(row):
 
 Z_test = np.array(Z_test)
 
-# # 1-NN
-# plt.title("1-NN decision region")
-# for i in range(row):
-#     # store the distance
-#     distances = []
-#     for j in range(7):
-#         dist = np.linalg.norm(Zx[j] - Z_test[i])
-#         distances.append(dist)
-#     index = distances.index(min(distances))
-#     if Dy[index] == 1:
-#         plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='b', marker='o')
-#     else:
-#         plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='r', marker='x')
+# 1-NN
+plt.title("1-NN decision region")
+for i in range(row):
+    # store the distance
+    distances = []
+    for j in range(7):
+        dist = np.linalg.norm(Zx[j] - Z_test[i])
+        distances.append(dist)
+    index = distances.index(min(distances))
+    if Dy[index] == 1:
+        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='b', marker='o')
+    else:
+        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='r', marker='x')
 
-# plt.show()
+plt.show()
 
 # 3-NN
 plt.title("3-NN decision region")
