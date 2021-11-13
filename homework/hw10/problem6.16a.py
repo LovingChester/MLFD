@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 np.random.seed(1314)
@@ -34,14 +35,17 @@ D_query = np.random.rand(10000, 2)
 
 # Brute force to find NN
 # store the NN for the ith point in D_query
-# NN_point = []
-# for i in range(10000):
-#     distances = []
-#     for j in range(10000):
-#         dist = np.linalg.norm(D[j] - D_query[i])
-#         distances.append(dist)
-#     index = distances.index(min(distances))
-#     NN_point.append(D[index])
+start = time.time()
+NN_point = []
+for i in range(10000):
+    distances = []
+    for j in range(10000):
+        dist = np.linalg.norm(D[j] - D_query[i])
+        distances.append(dist)
+    index = distances.index(min(distances))
+    NN_point.append(D[index])
+end = time.time()
+print("Brute force time: {}".format(end-start))
 
 # branch and bound to find NN
 # store the center index and its correcponding cluster
@@ -70,17 +74,28 @@ for i in range(10):
 # compute the radius for each cluster
 radius = []
 for i in range(10):
-    center = centers[i]
     distances = []
     for j in range(len(center_cluster[i])):
-        dist = np.linalg.norm(center_cluster[i][j] - center)
+        dist = np.linalg.norm(center_cluster[i][j] - centers[i])
         distances.append(dist)
     radius.append(max(distances))
 
+start = time.time()
 for i in range(10000):
     distances = []
     for j in range(10):
-        dist = np.linalg.norm(center[j], D_query[i])
+        dist = np.linalg.norm(centers[j] - D_query[i])
         distances.append(dist)
     index = distances.index(min(distances))
-    
+    for j in range(len(center_cluster[index])):
+        is_NN = True
+        for k in range(10):
+            lhs = np.linalg.norm(center_cluster[index][j] - D_query[i])
+            rhs = np.linalg.norm(centers[k] - D_query[i]) - radius[k]
+            if k != index and lhs > rhs:
+                is_NN = False
+                break
+        if is_NN:
+            break
+end = time.time()
+print("branch and bound time: {}".format(end-start))
