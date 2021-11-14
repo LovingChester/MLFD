@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import time
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
-np.random.seed(1314)
+#np.random.seed(1314)
 
 # generate data set
 D = np.random.uniform([0, 0], [1, 1], size=(10000, 2))

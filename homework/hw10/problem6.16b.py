@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import time
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
-np.random.seed(13)
+#np.random.seed(13)
 
 # generate data set
-centers = np.random.normal([0.5, 0.5], 0.3, (10, 2))
+centers = np.random.normal([0.5, 0.5], 0.1, (10, 2))
 #print(centers)
 
 #center_cluster = dict()
@@ -22,21 +22,21 @@ for i in range(1, 10):
 plt.plot(np.transpose(centers)[0], np.transpose(centers)[1], 'rx')
 #plt.show()
 # create the query data
-D_query = np.random.normal(size=(10000, 2))
+D_query = np.random.normal([0.5, 0.5], 0.1, (10000, 2))
 
 # Brute force to find NN
 # store the NN for the ith point in D_query
-# start = time.time()
-# NN_point = []
-# for i in range(10000):
-#     distances = []
-#     for j in range(10000):
-#         dist = np.linalg.norm(D[j] - D_query[i])
-#         distances.append(dist)
-#     index = distances.index(min(distances))
-#     NN_point.append(D[index])
-# end = time.time()
-# print("Brute force time: {}".format(end-start))
+start = time.time()
+NN_point = []
+for i in range(10000):
+    distances = []
+    for j in range(10000):
+        dist = np.linalg.norm(D[j] - D_query[i])
+        distances.append(dist)
+    index = distances.index(min(distances))
+    NN_point.append(D[index])
+end = time.time()
+print("Brute force time: {}".format(end-start))
 
 
 # branch and bound to find NN
