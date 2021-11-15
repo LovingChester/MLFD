@@ -39,13 +39,13 @@ for i in range(row):
     distances = []
     for j in range(7):
         dist = np.linalg.norm(Dx[j] - Dx_test[i])
-        distances.append(dist)
+        distances.append((dist, j))
     tmp_dist = distances.copy()
     distances.sort()
     distances = distances[: 3]
     total = 0
     for dist in distances:
-        total += Dy[tmp_dist.index(dist)]
+        total += Dy[dist[1]]
     res = np.sign(total)
     if res == 1:
         plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='b', marker='o')
