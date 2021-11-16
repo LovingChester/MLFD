@@ -58,7 +58,7 @@ for i in range(row):
     if Dy[index] == 1:
         plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='b', marker='o')
     else:
-        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='r', marker='x')
+        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='r', marker='o')
 
 plt.show()
 
@@ -80,6 +80,6 @@ for i in range(row):
     if res == 1:
         plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='b', marker='o')
     else:
-        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='r', marker='x')
+        plt.scatter(Dx_test[i, 0], Dx_test[i, 1], c='r', marker='o')
 
 plt.show()
