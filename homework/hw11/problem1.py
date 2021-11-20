@@ -67,7 +67,7 @@ if __name__ == '__main__':
     Dx_train, Dy_train, Dx_test, Dy_test = gather_data(["ZipDigits.train", "ZipDigits.test"])
     #row_train, col_train = np.size(Dx_train, 0), np.size(Dx_train, 1)
 
-    K_s = np.arange(1, 50, 2)
+    K_s = np.arange(1, 300, 2)
 
     E_cvs = []
     for K in K_s:
