@@ -2,7 +2,6 @@ from data_preprocess import *
 import matplotlib.pyplot as plt
 from scipy.spatial import distance_matrix
 
-np.random.seed(10)
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
 def get_centers(K, Dx):
@@ -12,14 +11,6 @@ def get_centers(K, Dx):
 
     # compute rest of the centers
     for i in range(K-1):
-        # center_num = np.size(centers, 0)
-        # total_dists = []
-        # for j in range(row):
-        #     distances = []
-        #     for k in range(center_num):
-        #         dist = np.linalg.norm(Dx[j] - centers[k])
-        #         distances.append(dist)
-        #     total_dists.append(min(distances))
         dist_matrix = distance_matrix(Dx, centers)
         sorted_dist = np.sort(dist_matrix, axis=1)
         min_dist = sorted_dist[:, 0]
@@ -30,14 +21,6 @@ def get_centers(K, Dx):
 
     for i in range(K):
         center_cluster[i] = []
-
-    # for i in range(row):
-    #     distances = []
-    #     for j in range(K):
-    #         dist = np.linalg.norm(centers[j] - Dx[i])
-    #         distances.append(dist)
-    #     index = distances.index(min(distances))
-    #     center_cluster[index].append(Dx[i])
     
     dist_matrix = distance_matrix(Dx, centers)
     min_index = np.argmin(dist_matrix, axis=1)
@@ -61,10 +44,7 @@ def transform(K, Dx, centers):
 
 def RBF(K, Dx, Dy, centers):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
-    #centers = get_centers(K, Dx)
-    r = 2 / np.sqrt(K)
-    Z = distance_matrix(Dx, centers) / r
-    Z = np.insert(Z, 0, row*[1], axis=1)
+    Z = transform(K, Dx, centers)
 
     # compute regression for classifiction
     inv = np.linalg.pinv(np.matmul(np.transpose(Z), Z))
@@ -85,6 +65,13 @@ def compute_E_cv(K, Dx, Dy, centers):
             total_e_cv += 1
 
     return total_e_cv / row
+
+def compute_E_in_test(K, Dx, Dy, centers):
+    row, col = np.size(Dx, 0), np.size(Dx, 1)
+    w = RBF(K, Dx, Dy, centers)
+    Z_Dx = transform(K, Dx, centers)
+    E = np.count_nonzero(np.sign(np.matmul(Z_Dx, w)) - Dy) / row
+    return E
 
 def draw(K, Dx, Dy, centers):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
@@ -133,3 +120,11 @@ if __name__ == '__main__':
     centers = get_centers(K, Dx_train)
     draw(K, Dx_train, Dy_train, centers)
     plt.show()
+
+    print(K)
+    E_in = compute_E_in_test(K, Dx_train, Dy_train, centers)
+    print("E_in is {:.3f}".format(E_in))
+    print("E_cv is {:.3f}".format(E_cvs[np.argwhere(K_s == K)[0][0]]))
+
+    E_test = compute_E_in_test(K, Dx_test, Dy_test, centers)
+    print("E_test is {:.5f}".format(E_test))
