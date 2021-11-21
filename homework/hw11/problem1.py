@@ -81,7 +81,7 @@ if __name__ == '__main__':
     plt.show()
     
     K = 3
-    draw(3, Dx_train, Dy_train)
+    draw(K, Dx_train, Dy_train)
     plt.show()
 
     E_in = compute_E_in_test(K, Dx_train, Dy_train)
