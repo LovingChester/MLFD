@@ -34,11 +34,17 @@ def compute_E_cv(K, Dx, Dy):
 
     return total_e_cv / row
 
-def compute_E_in_test(K, Dx, Dy):
+def compute_E_in(K, Dx, Dy):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
     pred = K_NN(K, Dx, Dy, Dx)
 
     return np.count_nonzero(pred - Dy) / row
+
+def compute_E_test(K, Dx_train, Dy_train, Dx_test, Dy_test):
+    row, col = np.size(Dx_test, 0), np.size(Dx_test, 1)
+    pred = K_NN(K, Dx_train, Dy_train, Dx_test)
+
+    return np.count_nonzero(pred - Dy_test) / row
 
 def draw(K, Dx, Dy):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
@@ -84,9 +90,9 @@ if __name__ == '__main__':
     draw(K, Dx_train, Dy_train)
     plt.show()
 
-    E_in = compute_E_in_test(K, Dx_train, Dy_train)
+    E_in = compute_E_in(K, Dx_train, Dy_train)
     print("E_in is {:.3f}".format(E_in))
     print("E_cv is {:.3f}".format(E_cvs[np.argwhere(K_s==K)[0][0]]))
 
-    E_test = compute_E_in_test(K, Dx_test, Dy_test)
+    E_test = compute_E_test(K, Dx_train, Dy_train, Dx_test, Dy_test)
     print("E_test is {:.5f}".format(E_test))
