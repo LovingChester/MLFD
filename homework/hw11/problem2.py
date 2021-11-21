@@ -46,10 +46,25 @@ def RBF(K, Dx, Dy, centers):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
     Z = transform(K, Dx, centers)
 
-    # compute regression for classifiction
+    # compute regression for classifiction followed by pocket
     inv = np.linalg.pinv(np.matmul(np.transpose(Z), Z))
     x_plus = np.matmul(inv, np.transpose(Z))
     w = np.matmul(x_plus, Dy)
+
+    t = 0
+    while t < 100:
+        # run PLA
+        res = np.sign(np.matmul(Z, w))
+        diff = res - Dy
+        index = np.where(diff != 0)[0]
+        #mis = select_missclassify(list(np.transpose(diff)[0]))
+        mis = np.random.choice(index)
+        tmp_w = w + Dy[mis][0] * np.transpose(Z[[mis], :])
+        new_diff = np.sign(np.matmul(Z, tmp_w)) - Dy
+        # if the new w can classify the point better, update it
+        if np.count_nonzero(new_diff) < np.count_nonzero(diff):
+            w = tmp_w
+        t = t + 1
 
     return w
 
