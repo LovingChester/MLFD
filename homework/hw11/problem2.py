@@ -81,9 +81,8 @@ def compute_E_cv(K, Dx, Dy, centers):
 
     return total_e_cv / row
 
-def compute_E_in_test(K, Dx, Dy, centers):
+def compute_E_in_test(K, Dx, Dy, centers, w):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
-    w = RBF(K, Dx, Dy, centers)
     Z_Dx = transform(K, Dx, centers)
     E = np.count_nonzero(np.sign(np.matmul(Z_Dx, w)) - Dy) / row
     return E
@@ -137,9 +136,10 @@ if __name__ == '__main__':
     plt.show()
 
     print(K)
-    E_in = compute_E_in_test(K, Dx_train, Dy_train, centers)
+    w = RBF(K, Dx_train, Dy_train, centers)
+    E_in = compute_E_in_test(K, Dx_train, Dy_train, centers, w)
     print("E_in is {:.3f}".format(E_in))
     print("E_cv is {:.3f}".format(E_cvs[np.argwhere(K_s == K)[0][0]]))
 
-    E_test = compute_E_in_test(K, Dx_test, Dy_test, centers)
+    E_test = compute_E_in_test(K, Dx_test, Dy_test, centers, w)
     print("E_test is {:.5f}".format(E_test))
