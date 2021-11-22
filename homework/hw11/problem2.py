@@ -6,10 +6,11 @@ np.set_printoptions(precision=3, suppress=False, threshold=5)
 
 def get_centers(K, Dx):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
+    #indexs = np.random.choice(row, K, False)
     indexs = np.random.choice(row, 1)
     centers = Dx[indexs, :]
 
-    # compute rest of the centers
+    #compute rest of the centers
     for i in range(K-1):
         dist_matrix = distance_matrix(Dx, centers)
         sorted_dist = np.sort(dist_matrix, axis=1)
@@ -58,6 +59,7 @@ def RBF(K, Dx, Dy, centers):
         diff = res - Dy
         index = np.where(diff != 0)[0]
         #mis = select_missclassify(list(np.transpose(diff)[0]))
+        if len(index) == 0: break
         mis = np.random.choice(index)
         tmp_w = w + Dy[mis][0] * np.transpose(Z[[mis], :])
         new_diff = np.sign(np.matmul(Z, tmp_w)) - Dy
@@ -95,7 +97,7 @@ def draw(K, Dx, Dy, centers):
     X = np.insert(X1.reshape(1, -1).reshape(10000, 1),
                   [1], X2.reshape(1, -1).reshape(10000, 1), axis=1)
     Z_X = transform(K, X, centers)
-    w = RBF(K, Dx_train, Dy_train, centers)
+    w = RBF(K, Dx, Dy, centers)
     result = np.matmul(Z_X, w)
     result = np.reshape(result, np.shape(X1))
     #plt.pcolormesh(X1, X2, result, cmap=ListedColormap(['#FFAAAA', '#AAFFAA']))
@@ -118,11 +120,13 @@ if __name__ == '__main__':
     K_s = np.arange(1, 60, 1)
 
     E_cvs = []
+    centers_K = []
     for K in K_s:
         centers = get_centers(K, Dx_train)
         E_cv = compute_E_cv(K, Dx_train, Dy_train, centers)
         #print("K = {}, E_cv = {}".format(K, E_cv))
         E_cvs.append(E_cv)
+        centers_K.append(centers)
     
     plt.title("E_cv vs K")
     plt.xlabel("K")
@@ -131,11 +135,10 @@ if __name__ == '__main__':
     plt.show()
 
     K = 16
-    centers = get_centers(K, Dx_train)
+    centers = centers_K[np.argwhere(K_s == K)[0][0]]
     draw(K, Dx_train, Dy_train, centers)
     plt.show()
 
-    print(K)
     w = RBF(K, Dx_train, Dy_train, centers)
     E_in = compute_E_in_test(K, Dx_train, Dy_train, centers, w)
     print("E_in is {:.3f}".format(E_in))
