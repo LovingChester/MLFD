@@ -24,9 +24,9 @@ def MLP_training(Dx, Dy, W_h, W_o, trans):
             if trans == "identity":
                 sens_o = 2 * (o - Dy)
             elif trans == "tanh":
-                sens_o = (1 - o * o) * 2 * (o - Dy)
+                sens_o = 2 * (o - Dy) * (1 - o ** 2)
             elif trans == 'sign':
-                sens_o = 0 * 2 * (o - Dy)
+                sens_o = 2 * (o - Dy) * 0
         
             sens_h = (1 - s * s) * np.matmul(W_o, sens_o)
 
