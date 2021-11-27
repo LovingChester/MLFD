@@ -51,3 +51,21 @@ if __name__ == '__main__':
     print(g_h)
     print(G_o)
     print(G_h)
+
+    W_h_plus = np.array([[0.25, 0.25], [0.25, 0.25]])
+    W_o_plus = np.array([[0.25+0.0001], [0.25]])
+
+    s_plus = np.tanh(np.matmul(np.transpose(W_h_plus), np.transpose(Dx[[0], :])))
+    o_plus = np.tanh(np.matmul(np.transpose(W_o_plus), s_plus))
+    
+    f_plus = (o_plus - Dy) ** 2
+
+    W_h_minus = np.array([[0.25, 0.25], [0.25, 0.25]])
+    W_o_minus = np.array([[0.25-0.0001], [0.25]])
+
+    s_minus = np.tanh(np.matmul(np.transpose(W_h_minus), np.transpose(Dx[[0], :])))
+    o_minus = np.tanh(np.matmul(np.transpose(W_o_minus), s_minus))
+
+    f_minus = (o_minus - Dy) ** 2
+
+    print((f_plus - f_minus) / (2 * 0.0001))
