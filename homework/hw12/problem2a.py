@@ -99,12 +99,12 @@ if __name__ == '__main__':
 
     start = time.time()
 
-    E_ins, W_1, W_2 = MLP_training(Dx_train, Dy_train, W_1, W_2)
+    E_ins, final_W_1, final_W_2 = MLP_training(Dx_train, Dy_train, W_1, W_2)
     plt.plot(range(MAXITER), E_ins)
     end = time.time()
     print(end-start)
-    print(W_1)
-    print(W_2)
+    print(final_W_1)
+    print(final_W_2)
     plt.show()
-    draw(Dx_train, Dy_train, W_1, W_2)
+    draw(Dx_train, Dy_train, final_W_1, final_W_2)
     plt.show()
