@@ -4,7 +4,7 @@ import time
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-MAXITER = 1000
+MAXITER = 2000000
 alpha = 1.1
 beta = 0.8
 
