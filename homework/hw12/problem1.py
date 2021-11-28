@@ -41,10 +41,11 @@ def MLP_training(Dx, Dy, W_h, W_o, trans):
 
 
 if __name__ == '__main__':
+    m = 2
     Dx = np.array([[1, 2]])
     Dy = np.array([[1]])
-    W_h = np.array([[0.25, 0.25], [0.25, 0.25]])
-    W_o = np.array([[0.25], [0.25]])
+    W_h = np.full((2, m), 0.25)
+    W_o = np.full((m, 1), 0.25)
 
     g_o, g_h, G_o, G_h = MLP_training(Dx, Dy, W_h, W_o, "tanh")
     print(g_o)
@@ -53,7 +54,7 @@ if __name__ == '__main__':
     print(G_h)
 
     W_h_plus = np.array([[0.25, 0.25], [0.25, 0.25]])
-    W_o_plus = np.array([[0.25+0.0001], [0.25]])
+    W_o_plus = np.array([[0.25], [0.25+0.0001]])
 
     s_plus = np.tanh(np.matmul(np.transpose(W_h_plus), np.transpose(Dx[[0], :])))
     o_plus = np.tanh(np.matmul(np.transpose(W_o_plus), s_plus))
@@ -61,7 +62,7 @@ if __name__ == '__main__':
     f_plus = (o_plus - Dy) ** 2
 
     W_h_minus = np.array([[0.25, 0.25], [0.25, 0.25]])
-    W_o_minus = np.array([[0.25-0.0001], [0.25]])
+    W_o_minus = np.array([[0.25], [0.25-0.0001]])
 
     s_minus = np.tanh(np.matmul(np.transpose(W_h_minus), np.transpose(Dx[[0], :])))
     o_minus = np.tanh(np.matmul(np.transpose(W_o_minus), s_minus))
