@@ -47,6 +47,7 @@ if __name__ == '__main__':
     W_h = np.full((2, m), 0.25)
     W_o = np.full((m, 1), 0.25)
 
+
     g_o, g_h, G_o, G_h = MLP_training(Dx, Dy, W_h, W_o, "tanh")
     print(g_o)
     print(g_h)
