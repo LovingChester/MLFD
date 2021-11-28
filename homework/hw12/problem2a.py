@@ -1,10 +1,11 @@
+from numpy.core.fromnumeric import size
 from data_preprocess import *
 import matplotlib.pyplot as plt
 import time
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-MAXITER = 2000000
+MAXITER = 2000
 alpha = 1.1
 beta = 0.8
 
@@ -79,7 +80,7 @@ def draw(Dx, Dy, W_1, W_2):
         x_2 = 1 * s_2
         result.append(float(x_2))
 
-    result = np.array(result).reshape(-1, 1)
+    result = np.array(result)
     result = np.reshape(result, np.shape(X1))
     plt.contour(X1, X2, result, 0)
 
@@ -94,8 +95,8 @@ def draw(Dx, Dy, W_1, W_2):
 if __name__ == '__main__':
     Dx_train, Dy_train, Dx_test, Dy_test = gather_data(["ZipDigits.train", "ZipDigits.test"])
     m = 10
-    W_1 = np.random.rand(2, m)
-    W_2 = np.random.rand(m, 1)
+    W_1 = np.random.uniform(low=0.0, high=0.5, size=(2, m))
+    W_2 = np.random.uniform(low=0.0, high=0.5, size=(m, 1))
 
     start = time.time()
 
