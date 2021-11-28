@@ -103,7 +103,8 @@ if __name__ == '__main__':
     plt.plot(range(MAXITER), E_ins)
     end = time.time()
     print(end-start)
-    
+    print(W_1)
+    print(W_2)
     plt.show()
     draw(Dx_train, Dy_train, W_1, W_2)
     plt.show()
