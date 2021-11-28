@@ -4,7 +4,7 @@ import time
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-MAXITER = 2000000
+MAXITER = 1000
 alpha = 1.1
 beta = 0.8
 
@@ -32,7 +32,7 @@ def MLP_training(Dx, Dy, W_1, W_2):
 
             # compute current E_in
             E_in += (1 / (4*row)) * (float(x_2 - Dy[[i], :])) ** 2
-            G_1 += (1 / (4*row)) * np.outer(x_0, np.transpose(sens_1))
+            G_1 += (1 / (4*row)) * np.outer(np.transpose(x_0), np.transpose(sens_1))
             G_2 += (1 / (4*row)) * np.outer(x_1, np.transpose(sens_2))
 
         E_ins.append(E_in)
