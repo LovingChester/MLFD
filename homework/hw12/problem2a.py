@@ -4,7 +4,7 @@ import time
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-MAXITER = 2000000
+MAXITER = 2000
 alpha = 1.1
 beta = 0.8
 
@@ -81,6 +81,7 @@ def draw(Dx, Dy, W_1, W_2):
 
     result = np.array(result)
     result = np.reshape(result, np.shape(X1))
+    print(result)
     plt.contour(X1, X2, result, 0)
 
     for i in range(row):
