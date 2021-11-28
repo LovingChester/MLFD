@@ -1,4 +1,3 @@
-from numpy.core.fromnumeric import size
 from data_preprocess import *
 import matplotlib.pyplot as plt
 import time
