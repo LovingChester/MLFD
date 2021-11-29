@@ -37,6 +37,8 @@ def MLP_training(Dx, Dy, W_1, W_2):
 
         E_ins.append(E_in)
 
+        print("iteration: {}, E_in: {}".format(t, E_in))
+
         W_1_next = W_1 - rate * G_1
         W_2_next = W_2 - rate * G_2
         new_E_in = 0
