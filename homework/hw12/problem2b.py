@@ -37,6 +37,8 @@ def MLP_training(Dx, Dy, W_1, W_2):
             G_2 += (1 / (4*row)) * np.outer(x_1, np.transpose(sens_2))
 
         #E_ins.append(E_in)
+        print("iteration: {}, E_in: {}".format(t, E_in))
+
         G_1 += ((2 * (0.01/row)) / row) * W_1
         G_2 += ((2 * (0.01/row)) / row) * W_2
 
