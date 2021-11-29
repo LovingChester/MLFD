@@ -2,7 +2,7 @@ from data_preprocess import *
 import matplotlib.pyplot as plt
 import time
 
-np.set_printoptions(precision=3, suppress=False, threshold=5)
+#np.set_printoptions(precision=3, suppress=False, threshold=5)
 
 MAXITER = 2000
 alpha = 1.1
