@@ -1,6 +1,6 @@
 import numpy as np
 
-def MLP_training(Dx, Dy, W_h, W_o, trans):
+def MLP_training(Dx, Dy, b_h, b_o, W_h, W_o, trans):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
     t = 0
     g_o = 0
@@ -10,14 +10,14 @@ def MLP_training(Dx, Dy, W_h, W_o, trans):
     while t < 1:
         # forward propagation
         for i in range(row):
-            s = np.tanh(np.matmul(np.transpose(W_h), np.transpose(Dx[[i], :])))
+            s = np.tanh(np.matmul(np.transpose(W_h), np.transpose(Dx[[i], :])) + b_h)
             o = 0
             if trans == "identity":
-                o = np.matmul(np.transpose(W_o), s)
+                o = np.matmul(np.transpose(W_o), s) + b_o
             elif trans == "tanh":
-                o = np.tanh(np.matmul(np.transpose(W_o), s))
+                o = np.tanh(np.matmul(np.transpose(W_o), s) + b_o)
             elif trans == "sign":
-                o = np.sign(np.matmul(np.transpose(W_o), s))
+                o = np.sign(np.matmul(np.transpose(W_o), s) + b_o)
             
             # backward propagation
             sens_o = 0
@@ -44,6 +44,8 @@ if __name__ == '__main__':
     m = 2
     Dx = np.array([[1, 2]])
     Dy = np.array([[1]])
+    b_h = np.full((m, 1), 0.25)
+    b_o = np.full((1, 1), 0.25)
     W_h = np.full((2, m), 0.25)
     W_o = np.full((m, 1), 0.25)
 
