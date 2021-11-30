@@ -4,7 +4,7 @@ import time
 
 #np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-MAXITER = 2000
+MAXITER = 2000000
 alpha = 1.1
 beta = 0.8
 
@@ -41,20 +41,24 @@ def MLP_training(Dx, Dy, W_1, W_2, B_1, B_2):
             Gb_2 += (1 / (4*row)) * sens_2
 
         #E_ins.append(E_in)
-        print("iteration: {}, E_in: {}".format(t, E_in))
+        if t % 10000 == 0:
+            print("iteration: {}, E_in: {}".format(t, E_in))
 
+        # regularize using weight decay
         G_1 += ((2 * (0.01/row)) / row) * W_1
         G_2 += ((2 * (0.01/row)) / row) * W_2
 
         W_1_next = W_1 - rate * G_1
         W_2_next = W_2 - rate * G_2
+        B_1_next = B_1 - rate * Gb_1
+        B_2_next = B_2 - rate * Gb_2
         new_E_in = 0
         for i in range(row):
             # forward propagation
             x_0 = Dx[[i], :]
-            s_1 = np.matmul(np.transpose(W_1_next), np.transpose(x_0))
+            s_1 = np.matmul(np.transpose(W_1_next), np.transpose(x_0)) + B_1_next
             x_1 = np.tanh(s_1)
-            s_2 = np.matmul(np.transpose(W_2_next), x_1)
+            s_2 = np.matmul(np.transpose(W_2_next), x_1) + B_2_next
             x_2 = 1 * s_2
 
             # compute current E_in
@@ -63,15 +67,17 @@ def MLP_training(Dx, Dy, W_1, W_2, B_1, B_2):
         if new_E_in < E_in:
             W_1 = W_1_next
             W_2 = W_2_next
+            B_1 = B_1_next
+            B_2 = B_2_next
             rate *= alpha
         else:
             rate *= beta
 
         t += 1 
 
-    return W_1, W_2
+    return W_1, W_2, B_1, B_2
 
-def draw(Dx, Dy, W_1, W_2):
+def draw(Dx, Dy, W_1, W_2, B_1, B_2):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
     x1 = np.linspace(-1, 1, num=100)
     x2 = np.linspace(-1, 1, num=100)
@@ -82,9 +88,9 @@ def draw(Dx, Dy, W_1, W_2):
     result = []
     for i in range(10000):
         x_0 = X[[i], :]
-        s_1 = np.matmul(np.transpose(W_1), np.transpose(x_0))
+        s_1 = np.matmul(np.transpose(W_1), np.transpose(x_0)) + B_1
         x_1 = np.tanh(s_1)
-        s_2 = np.matmul(np.transpose(W_2), x_1)
+        s_2 = np.matmul(np.transpose(W_2), x_1) + B_2
         x_2 = 1 * s_2
         result.append(float(x_2))
 
@@ -109,8 +115,9 @@ if __name__ == '__main__':
     W_2 = np.random.uniform(low=0.0, high=0.5, size=(m, 1))
 
     start = time.time()
-    final_W_1, final_W_2 = MLP_training(Dx_train, Dy_train, W_1, W_2)
+    final_W_1, final_W_2, final_B_1, final_B_2 = MLP_training(
+        Dx_train, Dy_train, W_1, W_2, B_1, B_2)
     print(final_W_1)
     print(final_W_2)
-    draw(Dx_train, Dy_train, final_W_1, final_W_2)
+    draw(Dx_train, Dy_train, final_W_1, final_W_2, final_B_1, final_B_2)
     plt.show()
