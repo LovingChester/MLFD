@@ -1,6 +1,6 @@
 import numpy as np
 
-np.random.seed(1314)
+np.random.seed(10)
 
 '''
 Compute the average intensity of the grayscale given
