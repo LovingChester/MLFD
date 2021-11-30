@@ -1,5 +1,6 @@
 from data_preprocess import *
 import matplotlib.pyplot as plt
+from qpsolvers import solve_qp
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
