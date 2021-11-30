@@ -5,7 +5,7 @@ import time
 
 #np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-MAXITER = 2000
+MAXITER = 2000000
 alpha = 1.1
 beta = 0.8
 
@@ -42,7 +42,8 @@ def MLP_training(Dx, Dy, W_1, W_2, B_1, B_2):
 
         E_ins.append(E_in)
 
-        print("iteration: {}, E_in: {}".format(t, E_in))
+        if t % 10000 == 0:
+            print("iteration: {}, E_in: {}".format(t, E_in))
 
         W_1_next = W_1 - rate * G_1
         W_2_next = W_2 - rate * G_2
@@ -92,7 +93,6 @@ def draw(Dx, Dy, W_1, W_2, B_1, B_2):
 
     result = np.array(result)
     result = np.reshape(result, np.shape(X1))
-    print(result)
     plt.contour(X1, X2, result, 0)
 
     for i in range(row):
