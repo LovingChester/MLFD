@@ -21,6 +21,22 @@ def compute_E_cv(Dx_val, Dy_val, W_1, W_2, B_1, B_2):
 
     return E_val
 
+def compute_E_test(Dx, Dy, W_1, W_2, B_1, B_2):
+    row, col = np.size(Dx, 0), np.size(Dx, 1)
+    pred = []
+    for i in range(row):
+        x_0 = Dx[[i], :]
+        s_1 = np.matmul(np.transpose(W_1), np.transpose(x_0)) + B_1
+        x_1 = np.tanh(s_1)
+        s_2 = np.matmul(np.transpose(W_2), x_1) + B_2
+        x_2 = 1 * s_2
+        pred.append(np.sign(float(x_2)))
+    
+    pred = np.array(pred).reshape(-1, 1)
+    res = np.count_nonzero(Dy - pred) / row
+
+    return res
+
 # early stopping
 def MLP_training(Dx_train, Dy_train, Dx_val, Dy_val, W_1, W_2, B_1, B_2):
     row, col = np.size(Dx_train, 0), np.size(Dx_train, 1)
@@ -122,6 +138,10 @@ if __name__ == '__main__':
     # plt.plot(range(MAXITER), E_vals)
     print(E_vals.index(min(E_vals)))
     # plt.show()
+
+    E_test = compute_E_test(Dx_test, Dy_test, final_W_1,
+                            final_W_2, final_B_1, final_B_2)
+    print("The E_test is {}".format(E_test))
 
     draw(Dx_train, Dy_train, final_W_1, final_W_2, final_B_1, final_B_2)
     plt.show()
