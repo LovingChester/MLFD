@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import time
 
 # 51600
-MAXITER = 51601
-#MAXITER = 500000
+#MAXITER = 51601
+MAXITER = 1000000
 
 def compute_E_cv(Dx_val, Dy_val, W_1, W_2, B_1, B_2):
     row, col = np.size(Dx_val, 0), np.size(Dx_val, 1)
@@ -119,7 +119,7 @@ if __name__ == '__main__':
         Dx_train, Dy_train, Dx_val, Dy_val, W_1, W_2, B_1, B_2)
     
     # plt.plot(range(MAXITER), E_vals)
-    # print(E_vals.index(min(E_vals)))
+    print(E_vals.index(min(E_vals)))
     # plt.show()
 
     draw(Dx_train, Dy_train, final_W_1, final_W_2, final_B_1, final_B_2)
