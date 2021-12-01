@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import time
 
 # 51600
-#MAXITER = 51601
-MAXITER = 51540
-MAXITER = 2000000
+MAXITER = 51601
+#MAXITER = 51540
+#MAXITER = 2000000
 
 def compute_E_cv(Dx_val, Dy_val, W_1, W_2, B_1, B_2):
     row, col = np.size(Dx_val, 0), np.size(Dx_val, 1)
