@@ -5,7 +5,7 @@ from qpsolvers import solve_qp
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-C = 20
+C = 500
 
 def get_kernel(D):
     K = np.matmul(D, np.transpose(D))
@@ -72,15 +72,6 @@ if __name__ == '__main__':
     Dx_train, Dy_train, Dx_test, Dy_test = gather_data(["ZipDigits.train", "ZipDigits.test"])
 
     print(get_kernel(Dx_train))
-
-    # M = np.array([[1., 2., 0.], [-8., 3., 2.], [0., 1., 1.]])
-    # P = np.dot(np.transpose(M), M)  # this is a positive definite matrix
-    # q = np.dot(np.array([3., 2., 3.]), M).reshape((3,))
-    # x = solve_qp(P, q)
-    # print("QP solution: x = {}".format(x))
-    # print(Dy_train)
-
-    # print(np.outer(Dy_train, np.transpose(Dy_train)))
 
     alpha, b = SVM(Dx_train, Dy_train)
     print(alpha)
