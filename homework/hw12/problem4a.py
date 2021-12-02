@@ -5,14 +5,12 @@ from qpsolvers import solve_qp
 
 np.set_printoptions(precision=3, suppress=False, threshold=5)
 
-C = 500
-
 def get_kernel(D):
     K = np.matmul(D, np.transpose(D))
     K = (1 + K) ** 8
     return K
 
-def SVM(Dx, Dy):
+def SVM(Dx, Dy, C):
     K = get_kernel(Dx)
     Q = np.outer(Dy, np.transpose(Dy)) * K
     row, col = np.size(Q, 0), np.size(Q, 1)
@@ -73,7 +71,7 @@ if __name__ == '__main__':
 
     print(get_kernel(Dx_train))
 
-    alpha, b = SVM(Dx_train, Dy_train)
+    alpha, b = SVM(Dx_train, Dy_train, 500)
     print(alpha)
     print(np.count_nonzero(alpha > 0))
     print(b)
