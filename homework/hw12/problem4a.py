@@ -18,12 +18,12 @@ def SVM(Dx, Dy):
     row, col = np.size(Q, 0), np.size(Q, 1)
     #print(np.count_nonzero(np.diag(Q) <= 0))
     # make it positive finite
-    Q += 0.1 * np.identity(row)
+    Q += 0.001 * np.identity(row)
     one = -np.ones(col)
-    
-    alpha = solve_qp(P=Q, q=one)
-    print(alpha)
-    return
+    y = Dy.reshape((row,)).astype(float)
+    alpha = solve_qp(P=Q, q=one, A=y, b=np.array([0.0]), lb=np.zeros(row), ub=C*np.ones(row))
+
+    return alpha
 
 if __name__ == '__main__':
     Dx_train, Dy_train, Dx_test, Dy_test = gather_data(["ZipDigits.train", "ZipDigits.test"])
@@ -39,4 +39,7 @@ if __name__ == '__main__':
 
     # print(np.outer(Dy_train, np.transpose(Dy_train)))
 
-    SVM(Dx_train, Dy_train)
+    alpha = SVM(Dx_train, Dy_train)
+    print(alpha)
+    print(np.count_nonzero(alpha))
+    
