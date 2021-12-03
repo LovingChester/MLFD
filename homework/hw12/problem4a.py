@@ -42,11 +42,6 @@ def draw(Dx, Dy, alpha, b):
     K = (1 + K) ** 8
     result = []
     for i in range(2500):
-        # x = X[i, :]
-        # total = 0
-        # for j in range(300):
-        #     if alpha[j] > 0:
-        #         total += Dy[j, 0] * alpha[j] * (1 + np.dot(Dx[j], x)) ** 8
         total = np.sum(Dy * alpha.reshape(-1, 1) * K[:, [i]])
         result.append(total + b)
     
