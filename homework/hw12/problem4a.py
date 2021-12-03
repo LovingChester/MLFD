@@ -21,18 +21,11 @@ def SVM(Dx, Dy, C):
     y = Dy.reshape((row,)).astype(float)
     alpha = solve_qp(P=Q, q=one, A=y, b=np.array([0.0]), lb=np.zeros(row), ub=C*np.ones(row))
 
+    alpha[alpha < 0] = 0
+    index = int(np.argwhere(alpha > 0)[0])
+
     # compute b
-    index = 0
-    for i in range(row):
-        if alpha[i] > 0:
-            index = i
-            break
-    
-    b = 0
-    for i in range(row):
-        if alpha[i] > 0:
-            b += Dy[i, 0] * alpha[i] * K[i, index]
-    
+    b = np.sum(Dy * alpha.reshape(-1, 1) * K[:, [index]])
     b = Dy[index, 0] - b
 
     return alpha, b
@@ -45,13 +38,16 @@ def draw(Dx, Dy, alpha, b):
     X = np.insert(X1.reshape(1, -1).reshape(2500, 1),
                   [1], X2.reshape(1, -1).reshape(2500, 1), axis=1)
     
+    K = np.matmul(Dx, np.transpose(X))
+    K = (1 + K) ** 8
     result = []
     for i in range(2500):
-        x = X[i, :]
-        total = 0
-        for j in range(300):
-            if alpha[j] > 0:
-                total += Dy[j, 0] * alpha[j] * (1 + np.dot(Dx[j], x)) ** 8
+        # x = X[i, :]
+        # total = 0
+        # for j in range(300):
+        #     if alpha[j] > 0:
+        #         total += Dy[j, 0] * alpha[j] * (1 + np.dot(Dx[j], x)) ** 8
+        total = np.sum(Dy * alpha.reshape(-1, 1) * K[:, [i]])
         result.append(total + b)
     
     result = np.array(result)
@@ -69,9 +65,7 @@ def draw(Dx, Dy, alpha, b):
 if __name__ == '__main__':
     Dx_train, Dy_train, Dx_test, Dy_test = gather_data(["ZipDigits.train", "ZipDigits.test"])
 
-    print(get_kernel(Dx_train))
-
-    alpha, b = SVM(Dx_train, Dy_train, 500)
+    alpha, b = SVM(Dx_train, Dy_train, 200)
     print(alpha)
     print(np.count_nonzero(alpha > 0))
     print(b)
