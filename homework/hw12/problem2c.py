@@ -5,6 +5,7 @@ import time
 # 51600
 MAXITER = 51601
 #MAXITER = 51540
+#MAXITER = 259370
 #MAXITER = 2000000
 
 def compute_E_val(Dx_val, Dy_val, W_1, W_2, B_1, B_2):
