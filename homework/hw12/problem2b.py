@@ -45,10 +45,10 @@ def MLP_training(Dx, Dy, W_1, W_2, B_1, B_2):
             print("iteration: {}, E_in: {}".format(t, E_in))
 
         # regularize using weight decay
-        G_1 += ((2 * (0.01/row)) / row) * W_1
-        G_2 += ((2 * (0.01/row)) / row) * W_2
-        # G_1 += (2 * 0.01) * W_1
-        # G_2 += (2 * 0.01) * W_2
+        # G_1 += ((2 * (0.01/row)) / row) * W_1
+        # G_2 += ((2 * (0.01/row)) / row) * W_2
+        G_1 += (2 * 0.01 / row) * W_1
+        G_2 += (2 * 0.01 / row) * W_2
 
         W_1_next = W_1 - rate * G_1
         W_2_next = W_2 - rate * G_2
