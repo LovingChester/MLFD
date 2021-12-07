@@ -43,7 +43,7 @@ def MLP_training(Dx, Dy, W_1, W_2, B_1, B_2):
         E_aug = E_in + (0.01 / row) * (np.sum(W_1 ** 2) + np.sum(W_2 ** 2)) 
 
         #E_ins.append(E_in)
-        if t % 10000 == 0:
+        if t % 1 == 0:
             print("iteration: {}, E_aug: {}".format(t, E_aug))
 
         # regularize using weight decay
@@ -68,7 +68,9 @@ def MLP_training(Dx, Dy, W_1, W_2, B_1, B_2):
             # compute current E_in
             new_E_in += (1 / (4*row)) * (float(x_2 - Dy[[i], :])) ** 2
         
-        if new_E_in < E_in:
+        new_E_aug = new_E_in + (0.01 / row) * (np.sum(W_1_next ** 2) + np.sum(W_2_next ** 2))
+
+        if new_E_aug < E_aug:
             W_1 = W_1_next
             W_2 = W_2_next
             B_1 = B_1_next
