@@ -115,11 +115,14 @@ if __name__ == '__main__':
 
     E_ins, final_W_1, final_W_2, final_B_1, final_B_2 \
         = MLP_training(Dx_train, Dy_train, W_1, W_2, B_1, B_2)
-    plt.plot(range(MAXITER), np.log10(E_ins))
+    plt.plot(range(100, MAXITER), np.log10(E_ins[100:]))
     end = time.time()
     print(end-start)
     print(final_W_1)
     print(final_W_2)
     plt.show()
     draw(Dx_train, Dy_train, final_W_1, final_W_2, final_B_1, final_B_2)
+    plt.show()
+
+    plt.plot(range(100, MAXITER), E_ins[100:])
     plt.show()
