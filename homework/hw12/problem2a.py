@@ -120,10 +120,11 @@ if __name__ == '__main__':
     print(end-start)
     print(final_W_1)
     print(final_W_2)
-    plt.show()
+    plt.title("decision boundary")
     draw(Dx_train, Dy_train, final_W_1, final_W_2, final_B_1, final_B_2)
     plt.show()
 
+    plt.title("E_in vs iteration")
     plt.plot(range(1, MAXITER), E_ins[1:])
     plt.xscale('log')
     plt.yscale('log')

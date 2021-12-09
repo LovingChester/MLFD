@@ -60,10 +60,12 @@ def draw(Dx, Dy, alpha, b):
 if __name__ == '__main__':
     Dx_train, Dy_train, Dx_test, Dy_test = gather_data(["ZipDigits.train", "ZipDigits.test"])
 
-    alpha, b = SVM(Dx_train, Dy_train, 100)
+    C = 36
+    alpha, b = SVM(Dx_train, Dy_train, C)
     print(alpha)
     print(np.count_nonzero(alpha > 0))
     print(b)
 
+    plt.title("Optimal hyperplane C=" + str(C))
     draw(Dx_train, Dy_train, alpha, b)
     plt.show()

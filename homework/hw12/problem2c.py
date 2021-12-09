@@ -144,5 +144,6 @@ if __name__ == '__main__':
                             final_W_2, final_B_1, final_B_2)
     print("The E_test is {}".format(E_test))
 
+    plt.plot("decision boundary")
     draw(Dx_train, Dy_train, final_W_1, final_W_2, final_B_1, final_B_2)
     plt.show()
