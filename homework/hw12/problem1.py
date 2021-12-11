@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 def MLP_training(Dx, Dy, b_h, b_o, W_h, W_o, trans):
     row, col = np.size(Dx, 0), np.size(Dx, 1)
@@ -41,6 +42,7 @@ def MLP_training(Dx, Dy, b_h, b_o, W_h, W_o, trans):
 
 
 if __name__ == '__main__':
+    o_trans = sys.argv[1]
     m = 2
     Dx = np.array([[1, 2]])
     Dy = np.array([[1]])
@@ -49,7 +51,7 @@ if __name__ == '__main__':
     W_h = np.full((2, m), 0.25)
     W_o = np.full((m, 1), 0.25)
 
-    g_o, g_h, G_o, G_h = MLP_training(Dx, Dy, b_h, b_o, W_h, W_o, "identity")
+    g_o, g_h, G_o, G_h = MLP_training(Dx, Dy, b_h, b_o, W_h, W_o, o_trans)
     # print(g_o)
     # print(g_h)
     print(G_o)
@@ -59,7 +61,11 @@ if __name__ == '__main__':
     W_o_plus = np.array([[0.25], [0.25+0.0001]])
 
     s_plus = np.tanh(np.matmul(np.transpose(W_h_plus), np.transpose(Dx[[0], :])) + b_h)
-    o_plus = np.tanh(np.matmul(np.transpose(W_o_plus), s_plus) + b_o)
+    o_plus = None
+    if o_trans == 'identity':
+        o_plus = np.matmul(np.transpose(W_o_plus), s_plus) + b_o
+    elif o_trans == 'tanh':
+        o_plus = np.tanh(np.matmul(np.transpose(W_o_plus), s_plus) + b_o)
     
     f_plus = (1 / (4*1)) * (o_plus - Dy) ** 2
 
@@ -67,7 +73,11 @@ if __name__ == '__main__':
     W_o_minus = np.array([[0.25], [0.25-0.0001]])
 
     s_minus = np.tanh(np.matmul(np.transpose(W_h_minus), np.transpose(Dx[[0], :])) + b_h)
-    o_minus = np.tanh(np.matmul(np.transpose(W_o_minus), s_minus) + b_o)
+    o_minus = None
+    if o_trans == 'identity':
+        o_minus = np.matmul(np.transpose(W_o_minus), s_minus) + b_o
+    elif o_trans == 'tanh':
+        o_minus = np.tanh(np.matmul(np.transpose(W_o_minus), s_minus) + b_o)
 
     f_minus = (1 / (4*1)) * (o_minus - Dy) ** 2
 
